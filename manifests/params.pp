@@ -11,7 +11,11 @@
 # Anton Baranov <email:abaranov@linuxfoundation.org>
 class cobbler::params {
   $ensure                 = 'present'
-  $package                = ['cobbler']
+  $package                = [
+                              'cobbler',
+                              'syslinux',
+                              'syslinux-tftpboot'
+                            ]
   $package_ensure         = 'installed'
   $service                = 'cobblerd'
   $service_ensure         = 'running'
