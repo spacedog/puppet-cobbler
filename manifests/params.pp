@@ -27,5 +27,10 @@ class cobbler::params {
   )
   # Default configuration for cobbler modules
   $default_modules_config = {
+    'authentication' => {'module' => 'authn_configfile'},
+    'authorization'  => {'module' => 'authz_allowall'},
+    'dns'            => {'module' => 'manage_bind'},
+    'dhcp'           => {'module' => 'manage_isc'},
+    'tftpd'          => {'module' => 'manage_in_tftpd'},
   }
 }

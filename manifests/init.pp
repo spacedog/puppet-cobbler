@@ -10,22 +10,23 @@
 #
 # Anton Baranov <abaranov@linuxfoundation.org>
 class cobbler (
-  $modules               = {},
-  $distros               = {},
-  $repos                 = {},
-  $profiles              = {},
-  $systems               = {},
-  $cobbler_config        = {},
-  $ensure                = $::cobbler::params::ensure,
-  $package               = $::cobbler::params::package,
-  $package_ensure        = $::cobbler::params::package_ensure,
-  $service               = $::cobbler::params::service,
-  $service_ensure        = $::cobbler::params::service_ensure,
-  $service_enable        = $::cobbler::params::service_enable,
-  $config_path           = $::cobbler::params::config_path,
-  $config_file           = $::cobbler::params::config_file,
-  $config_modules        = $::cobbler::params::config_modules,
-  $defaul_cobbler_config = $::cobbler::params::default_cobbler_config,
+  $distros                = {},
+  $repos                  = {},
+  $profiles               = {},
+  $systems                = {},
+  $cobbler_config         = {},
+  $cobbler_modules_config = {},
+  $ensure                 = $::cobbler::params::ensure,
+  $package                = $::cobbler::params::package,
+  $package_ensure         = $::cobbler::params::package_ensure,
+  $service                = $::cobbler::params::service,
+  $service_ensure         = $::cobbler::params::service_ensure,
+  $service_enable         = $::cobbler::params::service_enable,
+  $config_path            = $::cobbler::params::config_path,
+  $config_file            = $::cobbler::params::config_file,
+  $config_modules         = $::cobbler::params::config_modules,
+  $default_cobbler_config = $::cobbler::params::default_cobbler_config,
+  $default_modules_config = $::cobbler::params::default_modules_config,
   $cmd_cobbler           = $::cobbler::params::cmd_cobbler,
 ) inherits ::cobbler::params {
 
@@ -51,9 +52,9 @@ class cobbler (
     $cmd_cobbler,
   )
   validate_hash(
-    $defaul_cobbler_config,
+    $default_cobbler_config,
     $cobbler_config,
-    $modules,
+    $cobbler_modules_config,
     $distros,
     $repos,
     $profiles,
@@ -85,14 +86,22 @@ class cobbler (
 
   # Merging default cobbler config and cobbler config and pass to
   # cobbler::config class
-  $_cobbler_config = merge($default_cobbler_config, $cobbler_config)
+  $_cobbler_config         = merge(
+    $default_cobbler_config,
+    $cobbler_config
+  )
+  $_cobbler_modules_config = merge(
+    $default_modules_config,
+    $cobbler_modules_config
+  )
 
   class{'cobbler::config':
-    ensure         => $ensure,
-    cobbler_config => $_cobbler_config,
-    config_path    => $config_path,
-    config_file    => $config_file,
-    config_modules => $config_modules,
+    ensure                 => $ensure,
+    cobbler_config         => $_cobbler_config,
+    cobbler_modules_config => $_cobbler_modules_config,
+    config_path            => $config_path,
+    config_file            => $config_file,
+    config_modules         => $config_modules,
   }
 
   class{'cobbler::service':

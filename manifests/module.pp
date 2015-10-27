@@ -5,7 +5,7 @@ define cobbler::module (
   $template =  "${engine}.template",
   $order  = 99,
 ) {
-  validate_string($engine) 
+  validate_string($engine)
   validate_bool($use_template)
   
 

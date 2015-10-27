@@ -1,6 +1,7 @@
 class cobbler::config(
   $ensure,
   $cobbler_config,
+  $cobbler_modules_config,
   $config_path,
   $config_file,
   $config_modules,
@@ -11,7 +12,10 @@ class cobbler::config(
     $config_path,
     $config_modules
   )
-  validate_hash($cobbler_config)
+  validate_hash(
+    $cobbler_config,
+    $cobbler_modules_config
+  )
   validate_re($ensure, ['^present$','^absent$'])
 
   File {
@@ -26,19 +30,6 @@ class cobbler::config(
     content => inline_template('<%= @cobbler_config.to_yaml %>'),
   }
 
-  #concat {$cobbler::config_modules:
-  #  owner   => 'root',
-  #  group   => 'root',
-  #  mode    => '0644',
-  #}
-
-  #concat::fragment {"${cobbler::config_modules}_HEADER":
-  #  target  => $cobbler::config_modules,
-  #  content => template("${module_name}/modules.conf.header.erb"),
-  #  order   => '01',
-  #}
-
-  #create_resources('cobbler::module', $cobbler::modules)
-
-
+  $_modules_defaults = {'path' => $config_modules}
+  create_ini_settings($cobbler_modules_config, $_modules_defaults)
 }
