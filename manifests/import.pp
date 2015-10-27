@@ -36,7 +36,7 @@ define cobbler::import (
     join_keys_to_values({
       '--name'         => $title,
       '--breed'        => $breed,
-      '--os_version'   => $os_version,
+      '--os-version'   => $os_version,
       '--path'         => $path,
       '--available-as' => $available_as,
       '--kickstart'    => $kickstart,
