@@ -10,6 +10,7 @@
 #
 # Anton Baranov <abaranov@linuxfoundation.org>
 class cobbler (
+  $imports                = {},
   $distros                = {},
   $repos                  = {},
   $profiles               = {},
@@ -59,6 +60,7 @@ class cobbler (
     $repos,
     $profiles,
     $systems,
+    $imports,
   )
 
   if is_string($service_enable) {
@@ -99,6 +101,7 @@ class cobbler (
     ensure                 => $ensure,
     cobbler_config         => $_cobbler_config,
     cobbler_modules_config => $_cobbler_modules_config,
+    imports                => $imports,
     config_path            => $config_path,
     config_file            => $config_file,
     config_modules         => $config_modules,

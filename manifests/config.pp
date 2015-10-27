@@ -2,6 +2,7 @@ class cobbler::config(
   $ensure,
   $cobbler_config,
   $cobbler_modules_config,
+  $imports,
   $config_path,
   $config_file,
   $config_modules,
@@ -14,7 +15,8 @@ class cobbler::config(
   )
   validate_hash(
     $cobbler_config,
-    $cobbler_modules_config
+    $cobbler_modules_config,
+    $imports
   )
   validate_re($ensure, ['^present$','^absent$'])
 
@@ -32,4 +34,7 @@ class cobbler::config(
 
   $_modules_defaults = {'path' => $config_modules}
   create_ini_settings($cobbler_modules_config, $_modules_defaults)
+
+  # Imports 
+  create_resources('cobbler::import', $imports)
 }
