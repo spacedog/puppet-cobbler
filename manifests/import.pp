@@ -45,9 +45,11 @@ define cobbler::import (
       ,'='),
   ' ')
 
+  # For some reason cobbler disto find command returns 0 even if distro 
+  # not found. Use grep to get the right exit code
   exec {"import_${title}_from_${path}":
     command => "${::cobbler::params::cmd_cobbler} import ${_args}",
     unless  => "${::cobbler::params::cmd_cobbler} distro find \
-      --name=${title}-${arch}",
+      --name=${title}-${arch} | grep ${title}-${arch}",
   }
 }
