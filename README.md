@@ -13,6 +13,12 @@
 5. [Limitations - OS compatibility, etc.](#limitations)
 6. [Development - Guide for contributing to the module](#development)
 
+## Selinux
+  setsebool -P httpd_can_network_connect_cobbler 1
+  setsebool -P httpd_serve_cobbler_files 1
+  setsebool -P cobbler_anon_write 1
+  setsebool -P cobbler_can_network_connect 1
+  semanage fcontext -a -t cobbler_var_lib_t "/var/lib/tftpboot/boot(/.*)?"
 ## Overview
 
 A one-maybe-two sentence summary of what the module does/what problem it solves.
