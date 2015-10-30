@@ -1,7 +1,7 @@
 require 'xmlrpc/client'
 require 'fileutils'
 
-Puppet::Type.type(:cobbler_distro).provide(:distro) do
+Puppet::Type.type(:cobbler_distro).provide(:ruby) do
   desc "Provides cobbler distro via cobbler_api"
 
   # Supports redhat only
