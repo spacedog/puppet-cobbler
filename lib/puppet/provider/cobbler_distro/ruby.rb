@@ -99,64 +99,42 @@ Puppet::Type.type(:cobbler_distro).provide(:ruby) do
     )
   end
 
-  #Setters
-  def kernel=(value)
-    raise ArgumentError, '%s: not exists' % value unless File.exists? value
+  def set_field(what, value)
+    if value.is_a? Array
+      value = value.join(' ')
+    end
+
     cobbler(
       [
         "distro",
-        "edit", 
-        "--name=#{@resource[:name]}", 
-        "--kernel=#{value}"
+        "edit",
+        "--name=" + @resource[:name],
+        "--#{what}=" + value
       ]
     )
-    @property_hash[:kernel] = (value)
+    @property_hash[what] = value
+  end
+
+  #Setters
+  def kernel=(value)
+    raise ArgumentError, '%s: not exists' % value unless File.exists? value
+    self.set_field(:kernel, value)
   end
 
   def initrd=(value)
     raise ArgumentError, '%s: not exists' % value unless File.exists? value
-    cobbler([
-      "distro",
-      "edit", 
-      "--name=#{@resource[:name]}", 
-      "--initrd=#{value}"
-    ]
-           )
-    @property_hash[:initrd] = (value)
+    self.set_field(:initrd, value)
   end
 
   def comment=(value)
-    cobbler(
-      [
-        "distro", 
-        "edit",
-        "--name=" + @resource[:name],
-        "--comment=" + value
-      ]
-    )
-    @property_hash[:comment] = (value)
+    self.set_field(:comment, value)
   end
 
   def owners=(value)
-    cobbler(
-      [
-        "distro", 
-        "edit", "--name=#{@resource[:name]}", 
-        "--owners=#{value.join(' ')}"
-      ]
-    )
-    @property_hash[:owners] = (value)
+    self.set_field(:owners, value)
   end
 
   def arch=(value)
-    cobbler(
-      [
-        "distro", 
-        "edit",
-        "--name=#{@resource[:name]}",
-        "--arch=#{value}"
-      ]
-    )
-    @property_hash[:arch] = (value)
+    self.set_field(:arch, value)
   end
 end
