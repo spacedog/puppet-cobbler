@@ -7,7 +7,7 @@ Puppet::Type.type(:cobbler_distro).provide(:distro) do
   # Supports redhat only
   confine    :osfamily => :redhat
   defaultfor :osfamily => :redhat
-  commands   :cobbler  => '/usr/bin/cobbler'
+  commands   :cobbler  => 'cobbler'
 
   mk_resource_methods
   # generates the following methods via Ruby metaprogramming
@@ -48,84 +48,114 @@ Puppet::Type.type(:cobbler_distro).provide(:distro) do
     @property_hash[:ensure] == :present
   end
 
-  def add
+  def create
     # Import if not exists
     if @property_hash[:ensure] != :present
       self.import
     end
-    # set properties 
-    self.arch       = @resource[:arch]    unless @resource[:arch].nil?    or self.arch    == @resource[:arch]
-    self.comment    = @resource[:comment] unless @resource[:comment].nil? or self.comment == @resource[:comment]
-  
-    cobbler('sync')
+    # set properties as they are not set by defaut
+    properties = [
+      :kernel,
+      :initrd,
+      :arch,
+      :comment,
+      :owners
+    ]
+    for property in properties
+      unless self.send(property) == @resource.should(property) or @resource[property].nil?
+        self.send("#{property}=", @resource.should(property))
+      end
+    end
+
+    cobbler("sync")
     @property_hash[:ensure] = :present
   end
 
-  def remove
+
+  def destroy
     # remove cobbler distribution
     Puppet.warning("All child objects of #{@resource[:name]} distribution are deleted")
     
     cobbler(
-      "distro", 
-      "remove",
-      "--recursive",
-      "--name=#{@resource[:name]}"
+      [
+        "distro", 
+        "remove",
+        "--recursive",
+        "--name=#{@resource[:name]}"
+      ]
     )
+    @property_hash.clear
   end
 
   def import
     # import cobbler distribution
-    cmd_arg = "--name=#{@resource[:name]} --arch=#{@resource[:arch]} --path=#{@resource[:path]}" 
-    cobbler("import", cmd_arg.split(' '))
+    cobbler(
+      [
+        "import", 
+        "--name=#{@resource[:name]}",
+        "--arch=#{@resource[:arch]}",
+        "--path=#{@resource[:path]}" 
+      ]
+    )
   end
 
   #Setters
   def kernel=(value)
     raise ArgumentError, '%s: not exists' % value unless File.exists? value
-    cobbler("distro",
-            "edit", 
-            "--name=#{@resource[:name]}", 
-            "--kernel=\"#{value}\""
-            )
+    cobbler(
+      [
+        "distro",
+        "edit", 
+        "--name=#{@resource[:name]}", 
+        "--kernel=#{value}"
+      ]
+    )
     @property_hash[:kernel] = (value)
   end
 
   def initrd=(value)
     raise ArgumentError, '%s: not exists' % value unless File.exists? value
-    cobbler("distro",
-            "edit", 
-            "--name=#{@resource[:name]}", 
-            "--initrd=\"#{value}\""
-            )
+    cobbler([
+      "distro",
+      "edit", 
+      "--name=#{@resource[:name]}", 
+      "--initrd=#{value}"
+    ]
+           )
     @property_hash[:initrd] = (value)
   end
 
   def comment=(value)
     cobbler(
-      "distro", 
-      "edit",
-      "--name=#{@resource[:name]}",
-      "--comment=#{value}"
+      [
+        "distro", 
+        "edit",
+        "--name=" + @resource[:name],
+        "--comment=" + value
+      ]
     )
     @property_hash[:comment] = (value)
   end
 
   def owners=(value)
     cobbler(
-      "distro", 
-      "edit",
-      "--name=#{@resource[:name]}",
-      "--owners=#{value.join(' ')}"
+      [
+        "distro", 
+        "edit", "--name=#{@resource[:name]}", 
+        "--owners=#{value.join(' ')}"
+      ]
     )
     @property_hash[:owners] = (value)
   end
 
   def arch=(value)
     cobbler(
-      "distro", 
-      "edit",
-      "--name=#{@resource[:name]}",
-      "--arch=#{value}"
+      [
+        "distro", 
+        "edit",
+        "--name=#{@resource[:name]}",
+        "--arch=#{value}"
+      ]
     )
     @property_hash[:arch] = (value)
   end

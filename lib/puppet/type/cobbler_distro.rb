@@ -3,20 +3,7 @@ require 'pathname'
 Puppet::Type.newtype(:cobbler_distro) do
   desc "Puppet type for cobbler distro object"
 
-
-  ensurable do
-    newvalue(:present) do
-      provider.add
-    end
-
-    newvalue(:absent) do
-      provider.remove
-    end
-
-    newvalue(:import) do
-      provider.import
-    end
-  end
+  ensurable
 
   # Parameters
   newparam(:name, :namevar => true) do
@@ -45,7 +32,7 @@ Puppet::Type.newtype(:cobbler_distro) do
 
   # Properties
   newproperty(:arch) do
-    desc "Sets the architecture for the PXE bootloader and also controls how koan’s --replace-self option will operate"
+    desc "Sets the architecture for the PXE bootloader"
     newvalues(:i386, :x86_64, :ia64, :ppc, :ppc64, :s390, :arm)
     defaultto(:x86_64)
   end
