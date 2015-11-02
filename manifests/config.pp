@@ -35,6 +35,4 @@ class cobbler::config(
   $_modules_defaults = {'path' => $config_modules}
   create_ini_settings($cobbler_modules_config, $_modules_defaults)
 
-  # Distros
-  create_resources('cobbler_distro', $distros)
 }

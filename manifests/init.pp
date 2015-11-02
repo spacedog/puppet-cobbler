@@ -118,7 +118,12 @@ class cobbler (
   Class['cobbler::service'] ->
   Anchor['after_cobbler']
 
-  create_resources('cobbler::profile', $profiles)
+  # Distros
+  create_resources('cobbler_distro', $distros)
+  create_resources('cobbler_profile', $profiles)
   create_resources('cobbler::repo', $repos)
   create_resources('cobbler::system', $systems)
+
+  Cobbler_distro[keys($distros)] ->
+  Cobbler_profile[keys($profiles)]
 }
