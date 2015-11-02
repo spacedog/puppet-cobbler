@@ -109,7 +109,7 @@ Puppet::Type.type(:cobbler_distro).provide(:ruby) do
         "distro",
         "edit",
         "--name=" + @resource[:name],
-        "--#{what}=" + value
+        "--#{what.tr('_','-')}=" + value
       ]
     )
     @property_hash[what] = value

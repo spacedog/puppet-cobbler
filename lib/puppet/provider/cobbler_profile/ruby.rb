@@ -84,7 +84,7 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
         "profile",
         "edit",
         "--name=" + @resource[:name],
-        "--#{what}=" + value
+        "--#{what.tr('_','-')}=" + value
       ]
     )
     @property_hash[what] = value
