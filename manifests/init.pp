@@ -121,9 +121,10 @@ class cobbler (
   # Distros
   create_resources('cobbler_distro', $distros)
   create_resources('cobbler_profile', $profiles)
+  create_resources('cobbler_system', $systems)
   create_resources('cobbler::repo', $repos)
-  create_resources('cobbler::system', $systems)
 
   Cobbler_distro[keys($distros)] ->
-  Cobbler_profile[keys($profiles)]
+  Cobbler_profile[keys($profiles)] ->
+  Cobbler_system[keys($systems)]
 }
