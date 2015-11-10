@@ -20,7 +20,6 @@ Puppet::Type.type(:cobbler_system).provide(:ruby) do
     systems = []
     cserver = XMLRPC::Client.new2('http://127.0.0.1/cobbler_api')
     xmlresult = cserver.call('get_systems')
-
     # get properties of current system to @property_hash
     xmlresult.each do |system|
       systems << new(
@@ -29,10 +28,6 @@ Puppet::Type.type(:cobbler_system).provide(:ruby) do
         :profile     => system["profile"],
         :hostname    => system["hostname"],
         :interfaces  => system["interfaces"],
-        :mac_address => system["mac-address"],
-        :ip_address  => system["ip-address"],
-        :netmask     => system["netmask"],
-        :gateway     => system["gateway"],
         :server      => system["server"]
       )
     end
@@ -53,7 +48,7 @@ Puppet::Type.type(:cobbler_system).provide(:ruby) do
 
   def create
     # To add a profile only name and distro is required
-    cobbler( 
+    cobbler(
             [
               "system",
               "add",
