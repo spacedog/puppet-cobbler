@@ -105,6 +105,14 @@ Puppet::Type.type(:cobbler_system).provide(:ruby) do
     @property_hash[what] = value
   end
 
+  def get_from_interface(what)
+    result = []
+    @property_hash[:interfaces].each do |interface_name, interface|
+      result <<  {interface_name => interface[what]}
+    end
+    result
+  end
+
   def destroy
     # remove cobbler profile
     cobbler(
@@ -119,19 +127,19 @@ Puppet::Type.type(:cobbler_system).provide(:ruby) do
   
   # Getters
   def mac_address
-    @property_hash[:interfaces][@resource[:interface]]["mac_address"] || :absent
+    get_from_interface('mac_address')
   end
 
   def static
-    @property_hash[:interfaces][@resource[:interface]]["static"].to_s || :absent
+    get_from_interface('static')
   end
 
   def ip_address
-    @property_hash[:interfaces][@resource[:interface]]["ip_address"] || :absent
+    get_from_interface('ip_address')
   end
 
   def netmask
-    @property_hash[:interfaces][@resource[:interface]]["netmask"] || :absent
+    get_from_interface('netmask')
   end
 
   # Setters
