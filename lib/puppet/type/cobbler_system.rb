@@ -17,42 +17,35 @@ Puppet::Type.newtype(:cobbler_system) do
     end
   end
 
-  newproperty(:mac_address) do
-    desc "MAC Address"
-    munge do |value|
-      value.downcase
-    end
+  newproperty(:interfaces) do
+    desc "Interfaces for the system"
+    defaultto({})
     validate do |value|
-      unless /^[a-f0-9]{1,2}(:[a-f0-9]{1,2}){5}$/i.match(value) or value == :random
-        raise ArgumentError, "%s is not a valid MAC address" % value
+      unless value.is_a? Hash
+        raise ArgumentError, "interfaces parameter is not a hash"
+      end
+      # Validating interfaces parameters
+      value.each do |interface, params|
+        params.each do |param, val|
+        case param
+        when 'ip_address','if_gateway', 'netmask'
+          unless IPAddr.new(val)
+            raise ArgumentError, "%s is not a valid IP address" % val
+          end
+        when 'mac_address'
+          unless /^[a-f0-9]{1,2}(:[a-f0-9]{1,2}){5}$/i.match(val) or val == :random
+            raise ArgumentError, "%s is not a valid MAC address" % val
+          end
+        end
+        end
       end
     end
   end
 
-  newproperty(:ip_address) do
-    desc "IP Address (Should be used with --interface)"
+  newproperty(:profile) do
+    desc "Parent profile"
     validate do |value|
-      unless IPAddr.new(value)
-        raise ArgumentError, "%s is not a valid IP address" % value
-      end
-    end
-  end
-
-  newproperty(:gateway) do
-    desc "Gateway"
-    validate do |value|
-      unless IPAddr.new(value)
-        raise ArgumentError, "%s is not a valid IP address" % value
-      end
-    end
-  end
-
-  newproperty(:netmask) do
-    desc "Subnet Mask (Should be used with --interface)"
-    validate do |value|
-      unless IPAddr.new(value)
-        raise ArgumentError, "%s is not a valid IP address" % value
-      end
+      raise ArgumentError, "Profile must be specified"  if value.nil?
     end
   end
 
@@ -64,29 +57,4 @@ Puppet::Type.newtype(:cobbler_system) do
     desc "System hostname"
   end
 
-  newproperty(:profile) do
-    desc "Parent profile"
-    validate do |value|
-      raise ArgumentError, "Profile must be specified"  if value.nil?
-    end
-  end
-
-  newparam(:interface) do
-    desc "The interface to operate on"
-  end
-
-  newproperty(:static) do
-    desc "Is this interface static? Should be used with --interface"
-    defaultto(:true)
-    newvalues(:true, :false)
-  end
-
-  validate do
-    if self[:ip_address] or self[:netmask] or self[:gateway] or self[:mac_address]
-      unless self[:interface] and self[:static] == :true
-        raise ArgumentError, "ip_address, gateway, netmask should be used with interface"
-      end
-    end
-  end
 end
-

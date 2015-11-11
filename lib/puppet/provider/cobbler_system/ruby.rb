@@ -60,7 +60,6 @@ Puppet::Type.type(:cobbler_system).provide(:ruby) do
     properties = [
       :hostname,
       :server,
-      :mac_address
     ]
     for property in properties
       unless self.send(property) == @resource.should(property) or @resource[property].nil?
@@ -88,58 +87,29 @@ Puppet::Type.type(:cobbler_system).provide(:ruby) do
     @property_hash[what] = value
   end
 
-  def set_field_with(with, what, value)
-    if value.is_a? Array
-      value = value.join(' ')
-    end
-
-    cobbler(
-      [
-        "system",
-        "edit",
-        "--name=" + @resource[:name],
-        "--#{with}=" + @resource[with],
-        "--#{what.tr('_','-')}=" + value.to_s
-      ]
-    )
-    @property_hash[what] = value
-  end
-
-  def get_from_interface(what)
-    result = []
-    @property_hash[:interfaces].each do |interface_name, interface|
-      result <<  {interface_name => interface[what]}
-    end
-    result
-  end
-
   def destroy
     # remove cobbler profile
     cobbler(
       [
-        "system", 
+        "system",
         "remove",
         "--name=#{@resource[:name]}"
       ]
     )
     @property_hash.clear
   end
-  
-  # Getters
-  def mac_address
-    get_from_interface('mac_address')
-  end
 
-  def static
-    get_from_interface('static')
-  end
-
-  def ip_address
-    get_from_interface('ip_address')
-  end
-
-  def netmask
-    get_from_interface('netmask')
+  def interfaces
+    result = {}
+    @resource[:interfaces].each do |interface,params|
+      result[interface] = {}
+      params.each do |param, val|
+        if @property_hash[:interfaces].has_key? interface
+          result[interface][param] = @property_hash[:interfaces][interface][param]
+        end
+      end
+    end
+    @property_hash[:interfaces] = result
   end
 
   # Setters
@@ -159,20 +129,15 @@ Puppet::Type.type(:cobbler_system).provide(:ruby) do
     self.set_field("gateway", value)
   end
 
-  def mac_address=(value)
-    self.set_field_with("interface","mac_address", value)
-  end
-
-  def static=(value)
-    self.set_field_with("interface", "static", value)
-  end
-
-  def ip_address=(value)
-    self.set_field_with("interface", "ip_address", value)
-  end
-
-  def netmask=(value)
-    self.set_field_with("interface", "netmask", value)
+  def interfaces=(value)
+    value.each do |interface,params|
+      cmd_args = []
+      cmd_args << "system edit --name=#{@resource[:name]} --interface=#{interface}".split(' ')
+      params.each do |param,val|
+        cmd_args << "--#{param.tr('_','-')}=#{val.tr('_','-')}"
+      end
+      cobbler(cmd_args)
+    end
   end
 
 end
