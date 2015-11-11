@@ -99,19 +99,6 @@ Puppet::Type.type(:cobbler_system).provide(:ruby) do
     @property_hash.clear
   end
 
-  def interfaces
-    result = {}
-    @resource[:interfaces].each do |interface,params|
-      result[interface] = {}
-      params.each do |param, val|
-        if @property_hash[:interfaces].has_key? interface
-          result[interface][param] = @property_hash[:interfaces][interface][param]
-        end
-      end
-    end
-    @property_hash[:interfaces] = result
-  end
-
   # Setters
   def hostname=(value)
     self.set_field("hostname", value)

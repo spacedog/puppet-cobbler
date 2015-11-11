@@ -40,6 +40,22 @@ Puppet::Type.newtype(:cobbler_system) do
         end
       end
     end
+
+    def insync?(is)
+      should.each do |interface, params|
+        # Return false if interface is not found on the server
+        unless is.has_key? interface
+          return false
+        end
+        # Check interface parameters
+        params.each do |param, value|
+          unless is[interface][param] == value
+            return false
+          end
+        end
+      end
+      true
+    end
   end
 
   newproperty(:profile) do
