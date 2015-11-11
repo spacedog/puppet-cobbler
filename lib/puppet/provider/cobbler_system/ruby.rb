@@ -47,7 +47,7 @@ Puppet::Type.type(:cobbler_system).provide(:ruby) do
   end
 
   def create
-    # To add a profile only name and distro is required
+    # To add a system only name and profile is required
     cobbler(
             [
               "system",

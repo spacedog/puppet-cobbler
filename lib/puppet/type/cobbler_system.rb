@@ -8,7 +8,7 @@ Puppet::Type.newtype(:cobbler_system) do
 
   # Parameters
   newparam(:name, :namevar => true) do
-    desc "A string identifying the profile"
+    desc "A string identifying the system"
     munge do |value|
       value.downcase
     end

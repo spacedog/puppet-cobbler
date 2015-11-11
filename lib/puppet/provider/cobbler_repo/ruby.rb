@@ -20,7 +20,7 @@ Puppet::Type.type(:cobbler_repo).provide(:ruby) do
     repos = []
     cserver = XMLRPC::Client.new2('http://127.0.0.1/cobbler_api')
     xmlresult = cserver.call('get_repos')
-    # get properties of current system to @property_hash
+    # get properties of current repo to @property_hash
     xmlresult.each do |repo|
       repos << new(
         :name           => repo["name"],
