@@ -3,83 +3,163 @@
 #### Table of Contents
 
 1. [Overview](#overview)
-2. [Module Description - What the module does and why it is useful](#module-description)
-3. [Setup - The basics of getting started with cobbler](#setup)
+2. [Module Description](#module-description)
+3. [Setup](#setup)
     * [What cobbler affects](#what-cobbler-affects)
     * [Setup requirements](#setup-requirements)
     * [Beginning with cobbler](#beginning-with-cobbler)
-4. [Usage - Configuration options and additional functionality](#usage)
-5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
+4. [Usage](#usage)
+5. [Reference](#reference)
+5. [Limitations](#limitations)
 
-## Selinux
-  setsebool -P httpd_can_network_connect_cobbler 1
-  setsebool -P httpd_serve_cobbler_files 1
-  setsebool -P cobbler_anon_write 1
-  setsebool -P cobbler_can_network_connect 1
-  semanage fcontext -a -t cobbler_var_lib_t "/var/lib/tftpboot/boot(/.*)?"
 ## Overview
 
-A one-maybe-two sentence summary of what the module does/what problem it solves.
-This is your 30 second elevator pitch for your module. Consider including
-OS/Puppet version it works with.
+This module manages installation and configuration cobbler itself as well as
+cobbler objects such as distros, profiles, systems and repos.
 
 ## Module Description
 
-If applicable, this section should have a brief description of the technology
-the module integrates with and what that integration enables. This section
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?"
+Module installs cobbler servers. Module performs cobbler configuration,
+including main configuration file, and cobbler modules. Module provides  custom
+types for cobbler objects:
+  * cobbler_distro - cobbler distributions
+  * cobbler_repo - cobbler repositories
+  * cobbler_profile - cobbler profiles
+  * cobbler_system - cobbler systems
 
-If your module has a range of functionality (installation, configuration,
-management, etc.) this is the time to mention it.
 
 ## Setup
 
 ### What cobbler affects
 
-* A list of files, packages, services, or operations that the module will alter,
-  impact, or execute on the system it's installed on.
-* This is a great place to stick any warnings.
-* Can be in list or paragraph form.
++ Module installs (including dependencies):
+  * cobbler
+  * syslinux
+  * syslinux-tftpboot
 
-### Setup Requirements **OPTIONAL**
+  This can be overwritten using *_package_* parameter of *_cobbler_* class
+  
++ Modules manages files:
+  * /etc/cobbler/settings
+  * /etc/cobbler/modules.conf
 
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
++ Affected services:
+  * cobblerd
+
+### Setup Requirements
+
+This module uses custom types and providers so pluginsync must be enabled.
 
 ### Beginning with cobbler
 
-The very basic steps needed for a user to get the module up and running.
-
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you may wish to include an additional section here: Upgrading
-(For an example, see http://forge.puppetlabs.com/puppetlabs/firewall).
+For a basic installation setup with a default configuration parameters it's just
+enough to declare cobbler module inside the manifest
+```
+class {'cobbler':}
+```
 
 ## Usage
 
-Put the classes, types, and resources for customizing, configuring, and doing
-the fancy stuff with your module here.
+To pass any configuration parameters the *cobbler_config* parameter is used.
+*cobbler_config* is merged with *default_cobbler_config* from _params.pp_ and
+pushed to /etc/cobbler/settings file
+
+*cobbler_config* must be a hash that contains cobbler configuration options:
+
+```
+$cobbler_settings = {
+    'server'        => '192.168.0.1',
+    'next_server'   => '192.168.0.1',
+    'pxe_just_once' => 1
+}
+
+class {'cobbler':
+  cobbler_config => $cobbler_settings,
+}
+```
+
+For cobbler mopdules configuration _cobbler_modules_config parameter is used.
+As well as _cobbler_config_ modules configuration passed to the class is merged
+with _default_modules_config_ from _params.pp_
+
+```
+modules_settings = {
+  'dns'  => {'module' => 'manage_dnsmasq'},
+}
+
+class {'cobbler':
+  cobbler_modules_config => $modules_settings,
+}
+```
+
+Cobbler objects are managed using custom types. Cobbler class accepts hashes to
+create distributions, repositories, profiles and systems using
+_create_resources_
+function. For example:
++ Using hiera:
+```
+cobbler::distros:
+  centos7-x86_64:
+    ensure: present
+    comment: 'CentOS7 Distribution'
+    arch: x86_64
+    path: /mnt
+    initrd: '/var/www/cobbler/ks_mirror/centos7-minimal-x86_64/images/pxeboot/initrd.img'
+    kernel: '/var/www/cobbler/ks_mirror/centos7-minimal-x86_64/images/pxeboot/vmlinuz'
+    owners:
+      - admin
+
+class {'cobbler':}
+```
+
++ Using puppet hash
+```
+$interfaces = {
+  'eth0'       => {
+    ip_address => '192.168.1.6',
+    netmask    => '255.255.255.0',
+    if_gateway => '192.168.1.1',
+  },
+  'eth1'       => {
+    ip_address => '192.168.100.10',
+    netmask    => '255.255.255.0',
+    if_gateway => '192.168.100.1',
+  },
+  'eth2'       => {
+    ip_address => '192.168.200.11',
+    netmask    => '255.255.255.0',
+    if_gateway => '192.168.200.1',
+  }
+}
+$systems = {
+  'testhost01' => {
+    ensure     => 'present',
+    profile    => 'cvo_mgmt_server',
+    interfaces => $interfaces,
+    hostname   => 'testhost01',
+}
+
+class {'cobbler':
+  systems => $systems,
+}
+
+```
 
 ## Reference
 
-Here, list the classes, types, providers, facts, etc contained in your module.
-This section should include all of the under-the-hood workings of your module so
-people know what the module is touching on their system but don't need to mess
-with things. (We are working on automating this section!)
+That modules contains:
+ + Custom types:
+    * cobbler_distro
+    * cobbler_repo
+    * cobbler_profile
+    * cobbler_system
 
 ## Limitations
 
-This is where you list OS compatibility, version compatibility, etc.
-
-## Development
-
-Since your module is awesome, other users will want to play with it. Let them
-know what the ground rules for contributing are.
-
-## Release Notes/Contributors/Etc **Optional**
-
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You may also add any additional sections you feel are
-necessary or important to include here. Please use the `## ` header.
++ osfamily => RedHat
++ if  getnenforce == true
+  * setsebool -P httpd_can_network_connect_cobbler 1
+  * setsebool -P httpd_serve_cobbler_files 1
+  * setsebool -P cobbler_anon_write 1
+  * setsebool -P cobbler_can_network_connect 1
+  * semanage fcontext -a -t cobbler_var_lib_t "/var/lib/tftpboot/boot(/.*)?"
