@@ -54,7 +54,7 @@ This module uses custom types and providers so pluginsync must be enabled.
 
 For a basic installation setup with a default configuration parameters it's just
 enough to declare cobbler module inside the manifest
-```
+```puppet
 class {'cobbler':}
 ```
 
@@ -66,7 +66,7 @@ pushed to /etc/cobbler/settings file
 
 *cobbler_config* must be a hash that contains cobbler configuration options:
 
-```
+```puppet
 $cobbler_settings = {
     'server'        => '192.168.0.1',
     'next_server'   => '192.168.0.1',
@@ -82,7 +82,7 @@ For cobbler mopdules configuration _cobbler_modules_config parameter is used.
 As well as _cobbler_config_ modules configuration passed to the class is merged
 with _default_modules_config_ from _params.pp_
 
-```
+```puppet
 modules_settings = {
   'dns'  => {'module' => 'manage_dnsmasq'},
 }
@@ -97,7 +97,7 @@ create distributions, repositories, profiles and systems using
 _create_resources_
 function. For example:
 + Using hiera:
-```
+```yaml
 cobbler::distros:
   centos7-x86_64:
     ensure: present
@@ -108,12 +108,10 @@ cobbler::distros:
     kernel: '/var/www/cobbler/ks_mirror/centos7-minimal-x86_64/images/pxeboot/vmlinuz'
     owners:
       - admin
-
-class {'cobbler':}
 ```
 
 + Using puppet hash
-```
+```puppet
 $interfaces = {
   'eth0'       => {
     ip_address => '192.168.1.6',
