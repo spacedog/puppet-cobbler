@@ -59,10 +59,10 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
            )
     # set properties as they are not set by defaut
     properties = [
-      :distro,
-      :kickstart,
-      :repos,
-      :kopts
+      "distro",
+      "kickstart",
+      "repos",
+      "kopts"
     ]
     for property in properties
       unless self.send(property) == @resource.should(property) or @resource[property].nil?
@@ -109,15 +109,15 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
   end
 
   def distro=(value)
-    self.set_field(:distro, value)
+    self.set_field("distro", value)
   end
 
   def kopts=(value)
-    self.set_field(:kopts, value)
+    self.set_field("kopts", value)
   end
 
   def repos=(value)
-    self.set_field(:repos, value)
+    self.set_field("repos", value)
   end
 
 end

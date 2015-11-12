@@ -55,11 +55,11 @@ Puppet::Type.type(:cobbler_distro).provide(:ruby) do
     end
     # set properties as they are not set by defaut
     properties = [
-      :kernel,
-      :initrd,
-      :arch,
-      :comment,
-      :owners
+      "kernel",
+      "initrd",
+      "arch",
+      "comment",
+      "owners"
     ]
     for property in properties
       unless self.send(property) == @resource.should(property) or @resource[property].nil?
@@ -118,23 +118,23 @@ Puppet::Type.type(:cobbler_distro).provide(:ruby) do
   #Setters
   def kernel=(value)
     raise ArgumentError, '%s: not exists' % value unless File.exists? value
-    self.set_field(:kernel, value)
+    self.set_field("kernel", value)
   end
 
   def initrd=(value)
     raise ArgumentError, '%s: not exists' % value unless File.exists? value
-    self.set_field(:initrd, value)
+    self.set_field("initrd", value)
   end
 
   def comment=(value)
-    self.set_field(:comment, value)
+    self.set_field("comment", value)
   end
 
   def owners=(value)
-    self.set_field(:owners, value)
+    self.set_field("owners", value)
   end
 
   def arch=(value)
-    self.set_field(:arch, value)
+    self.set_field("arch", value)
   end
 end

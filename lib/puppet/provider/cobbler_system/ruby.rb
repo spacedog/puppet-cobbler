@@ -58,8 +58,8 @@ Puppet::Type.type(:cobbler_system).provide(:ruby) do
            )
     # set properties as they are not set by defaut
     properties = [
-      :hostname,
-      :server,
+      "hostname",
+      "server",
     ]
     for property in properties
       unless self.send(property) == @resource.should(property) or @resource[property].nil?
@@ -88,7 +88,7 @@ Puppet::Type.type(:cobbler_system).provide(:ruby) do
   end
 
   def destroy
-    # remove cobbler profile
+    # remove cobbler system
     cobbler(
       [
         "system",
