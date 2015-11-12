@@ -83,7 +83,7 @@ As well as _cobbler_config_ modules configuration passed to the class is merged
 with _default_modules_config_ from _params.pp_
 
 ```puppet
-modules_settings = {
+$modules_settings = {
   'dns'  => {'module' => 'manage_dnsmasq'},
 }
 
@@ -158,6 +158,4 @@ That modules contains:
 + if  getnenforce == true
   * setsebool -P httpd_can_network_connect_cobbler 1
   * setsebool -P httpd_serve_cobbler_files 1
-  * setsebool -P cobbler_anon_write 1
-  * setsebool -P cobbler_can_network_connect 1
   * semanage fcontext -a -t cobbler_var_lib_t "/var/lib/tftpboot/boot(/.*)?"
