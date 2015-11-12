@@ -1,5 +1,7 @@
 # == Class: cobbler
 #
+# Class manages cobbler installation and configuraiton
+#
 # === Parameters
 #
 # === Variables
@@ -27,7 +29,6 @@ class cobbler (
   $config_modules         = $::cobbler::params::config_modules,
   $default_cobbler_config = $::cobbler::params::default_cobbler_config,
   $default_modules_config = $::cobbler::params::default_modules_config,
-  $cmd_cobbler           = $::cobbler::params::cmd_cobbler,
 ) inherits ::cobbler::params {
 
   # Validation
@@ -49,7 +50,6 @@ class cobbler (
     $config_path,
     $config_file,
     $config_modules,
-    $cmd_cobbler,
   )
   validate_hash(
     $default_cobbler_config,
