@@ -1,4 +1,4 @@
-# cobbler
+# cobbler [![Build Status](https://travis-ci.org/spacedog/puppet-cobbler.svg)](https://travis-ci.org/spacedog/puppet-cobbler)
 
 #### Table of Contents
 
