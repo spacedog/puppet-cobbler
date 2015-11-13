@@ -25,7 +25,7 @@ class cobbler::config(
   }
 
   # Just convert to yaml
-  file {$cobbler::config_file:
+  file {$config_file:
     ensure  => $ensure,
     content => inline_template('<%= @cobbler_config.to_yaml %>'),
   }
