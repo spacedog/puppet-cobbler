@@ -1,0 +1,13 @@
+fixtures:
+  # use the forge modules so we can easily pin to a specific version
+#  forge_modules:
+#    stdlib: "puppetlabs/stdlib"
+#repositories:
+#    stdlib: "git://github.com/puppetlabs/puppetlabs-stdlib.git"
+#    vscrepo: "git://github.com/puppetlabs/puppetlabs-vcsrepo.git"
+#    python: "git://github.com/stankevich/puppet-python.git"
+#    uwsgi: "git://github.com/Engage/puppet-uwsgi.git"
+  symlinks:
+    cobbler: "#{source_dir}"
+    stdlib: "../../../../../modules/stdlib"
+    inifile: "../../../../../modules/inifile"
