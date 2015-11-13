@@ -260,7 +260,60 @@ proxy_url_int: ''
     }
   )
   }
-  it "should contains /etc/cobbler/modules.confo file with a content from cobbler_modules_config param"
 
+  it { should contain_ini_setting('/etc/cobbler/modules.conf [authentication] module').with(
+    {
+      'ensure'  => 'present',
+      'section' => 'authentication',
+      'setting' => 'module',
+      'value'   => 'authn_configfile',
+      'path'    => '/etc/cobbler/modules.conf'
+    }
+  )
+  }
+
+  it { should contain_ini_setting('/etc/cobbler/modules.conf [authorization] module').with(
+    {
+      'ensure'  => 'present',
+      'section' => 'authorization',
+      'setting' => 'module',
+      'value'   => 'authz_allowall',
+      'path'    => '/etc/cobbler/modules.conf'
+    }
+  )
+  }
+
+  it { should contain_ini_setting('/etc/cobbler/modules.conf [dns] module').with(
+    {
+      'ensure'  => 'present',
+      'section' => 'dns',
+      'setting' => 'module',
+      'value'   => 'manage_bind',
+      'path'    => '/etc/cobbler/modules.conf'
+    }
+  )
+  }
+
+  it { should contain_ini_setting('/etc/cobbler/modules.conf [dhcp] module').with(
+    {
+      'ensure'  => 'present',
+      'section' => 'dhcp',
+      'setting' => 'module',
+      'value'   => 'manage_isc',
+      'path'    => '/etc/cobbler/modules.conf'
+    }
+  )
+  }
+
+  it { should contain_ini_setting('/etc/cobbler/modules.conf [tftpd] module').with(
+    {
+      'ensure'  => 'present',
+      'section' => 'tftpd',
+      'setting' => 'module',
+      'value'   => 'manage_in_tftpd',
+      'path'    => '/etc/cobbler/modules.conf'
+    }
+  )
+  }
   end
 end
