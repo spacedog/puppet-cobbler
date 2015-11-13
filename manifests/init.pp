@@ -76,8 +76,8 @@ class cobbler (
     validate_string($package)
   }
 
-  anchor{'before_cobbler':}
-  anchor{'after_cobbler':}
+  anchor{'cobbler::begin':}
+  anchor{'cobbler::end':}
 
   class{'cobbler::install':
     package        => $package,
@@ -112,11 +112,11 @@ class cobbler (
   }
 
 
-  Anchor['before_cobbler'] ->
+  Anchor['cobbler::begin'] ->
   Class['cobbler::install'] ->
   Class['cobbler::config'] ~>
   Class['cobbler::service'] ->
-  Anchor['after_cobbler']
+  Anchor['cobbler::end']
 
   # Distros
   create_resources('cobbler_distro', $distros)
