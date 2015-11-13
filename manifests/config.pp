@@ -2,7 +2,6 @@ class cobbler::config(
   $ensure,
   $cobbler_config,
   $cobbler_modules_config,
-  $distros,
   $config_path,
   $config_file,
   $config_modules,
@@ -16,7 +15,6 @@ class cobbler::config(
   validate_hash(
     $cobbler_config,
     $cobbler_modules_config,
-    $distros
   )
   validate_re($ensure, ['^present$','^absent$'])
 

@@ -99,7 +99,6 @@ class cobbler (
     ensure                 => $ensure,
     cobbler_config         => $_cobbler_config,
     cobbler_modules_config => $_cobbler_modules_config,
-    distros                => $distros,
     config_path            => $config_path,
     config_file            => $config_file,
     config_modules         => $config_modules,
