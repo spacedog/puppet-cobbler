@@ -155,7 +155,7 @@ That modules contains:
 ## Limitations
 
 + osfamily => RedHat
-+ if  getnenforce == true
++ if getenforce == Enforcing
   * setsebool -P httpd_can_network_connect_cobbler 1
   * setsebool -P httpd_serve_cobbler_files 1
   * semanage fcontext -a -t cobbler_var_lib_t "/var/lib/tftpboot/boot(/.*)?"
