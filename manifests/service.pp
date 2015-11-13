@@ -17,8 +17,8 @@ class cobbler::service (
   } else {
     validate_bool($service_enable)
   }
-  service {$cobbler::service:
-    ensure => $cobbler::service_ensure,
-    enable => $cobbler::service_enable,
+  service {$service:
+    ensure => $service_ensure,
+    enable => $service_enable,
   }
 }
