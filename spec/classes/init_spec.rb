@@ -19,20 +19,4 @@ describe 'cobbler' do
     it { should contain_anchor('cobbler::end').that_requires('Class[cobbler::service]') }
   end
 
-  context 'with distros parameter defined' do
-    let(:params) {
-      {
-        :distros => {
-          'testdistro' => {
-              'ensure' => 'present',
-          }
-        }
-      }
-    }
-    it {
-      should contain_cobbler_distro('testdistro').with(
-        'ensure' => 'present'
-      )
-    }
-  end
 end

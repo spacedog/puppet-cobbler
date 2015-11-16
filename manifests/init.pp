@@ -12,10 +12,6 @@
 #
 # Anton Baranov <abaranov@linuxfoundation.org>
 class cobbler (
-  $distros                = {},
-  $repos                  = {},
-  $profiles               = {},
-  $systems                = {},
   $cobbler_config         = {},
   $cobbler_modules_config = {},
   $ensure                 = $::cobbler::params::ensure,
@@ -55,10 +51,6 @@ class cobbler (
     $default_cobbler_config,
     $cobbler_config,
     $cobbler_modules_config,
-    $distros,
-    $repos,
-    $profiles,
-    $systems,
   )
 
   if is_string($service_enable) {
@@ -118,14 +110,4 @@ class cobbler (
   Anchor['cobbler::end']
 
   # Distros
-  create_resources('cobbler_distro', $distros)
-  create_resources('cobbler_profile', $profiles)
-  create_resources('cobbler_system', $systems)
-  create_resources('cobbler_repo', $repos)
-
-  Cobbler_distro[keys($distros)] ->
-  Cobbler_profile[keys($profiles)] ->
-  Cobbler_system[keys($systems)]
-
-  Cobbler_repo[keys($repos)] -> Cobbler_system[keys($systems)]
 }
