@@ -92,10 +92,9 @@ class {'cobbler':
 }
 ```
 
-Cobbler objects are managed using custom types. Cobbler class accepts hashes to
-create distributions, repositories, profiles and systems using
-_create_resources_
-function. For example:
+Cobbler objects are managed using custom types. One of the ways to create
+distributions, repositories, profiles and systems is to pass hash to
+_create_resources_ function. For example:
 + Using hiera:
 ```yaml
 cobbler::distros:
@@ -108,7 +107,10 @@ cobbler::distros:
     kernel: '/var/www/cobbler/ks_mirror/centos7-minimal-x86_64/images/pxeboot/vmlinuz'
     owners:
       - admin
+
+create_resources('cobbler_distro', hiera('cobbler::distros')
 ```
+or
 
 + Using puppet hash
 ```puppet
@@ -137,10 +139,7 @@ $systems = {
     hostname   => 'testhost01',
 }
 
-class {'cobbler':
-  systems => $systems,
-}
-
+create_resources('cobble_system', $systems)
 ```
 
 ## Reference
