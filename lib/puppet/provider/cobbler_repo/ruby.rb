@@ -59,7 +59,7 @@ Puppet::Type.type(:cobbler_repo).provide(:ruby) do
     # set properties as they are not set by defaut
     properties = [
       "arch",
-      "mirror_localy",
+      "mirror_locally",
       "rpmlist"
     ]
     for property in properties
