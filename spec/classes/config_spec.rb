@@ -16,8 +16,7 @@ describe('cobbler::config') do
     it do
       expect {
         should compile
-      }.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-        /Must pass /)
+      }.to raise_error(RSpec::Expectations::ExpectationNotMetError)
     end
   end
 
@@ -26,29 +25,29 @@ describe('cobbler::config') do
     {
       'ensure'                 => 'present',
       'cobbler_config'         => {
-        'allow_duplicate_hostnames'             => 0, 
-        'allow_duplicate_ips'                   => 0, 
-        'allow_duplicate_macs'                  => 0, 
-        'allow_dynamic_settings'                => 0, 
-        'anamon_enabled'                        => 0, 
-        'authn_pam_service'                     => 'login', 
-        'auth_token_expiration'                 => 3600, 
+        'allow_duplicate_hostnames'             => 0,
+        'allow_duplicate_ips'                   => 0,
+        'allow_duplicate_macs'                  => 0,
+        'allow_dynamic_settings'                => 0,
+        'anamon_enabled'                        => 0,
+        'authn_pam_service'                     => 'login',
+        'auth_token_expiration'                 => 3600,
         'build_reporting_enabled'               => 0,
-        'build_reporting_sender'                => '', 
+        'build_reporting_sender'                => '',
         'build_reporting_email'                 => [ 'root@localhost'],
         'build_reporting_smtp_server'           => 'localhost',
-        'build_reporting_subject'               => '' , 
-        'build_reporting_ignorelist'            => [], 
-        'cheetah_import_whitelist'              => ['random', 're', 'time'], 
-        'createrepo_flags'                      => '-c cache -s sha', 
-        'default_kickstart'                     => '/var/lib/cobbler/kickstarts/default.ks', 
-        'default_name_servers'                  => [], 
-        'default_ownership'                     => ['admin'], 
-        'default_password_crypted'              => '$1$mF86/UHC$WvcIcX2t6crBz2onWxyac.', 
-        'default_template_type'                 => 'cheetah', 
-        'default_virt_bridge'                   => 'xenbr0', 
-        'default_virt_file_size'                => 5, 
-        'default_virt_ram'                      => 512, 
+        'build_reporting_subject'               => '' ,
+        'build_reporting_ignorelist'            => [],
+        'cheetah_import_whitelist'              => ['random', 're', 'time'],
+        'createrepo_flags'                      => '-c cache -s sha',
+        'default_kickstart'                     => '/var/lib/cobbler/kickstarts/default.ks',
+        'default_name_servers'                  => [],
+        'default_ownership'                     => ['admin'],
+        'default_password_crypted'              => '$1$mF86/UHC$WvcIcX2t6crBz2onWxyac.',
+        'default_template_type'                 => 'cheetah',
+        'default_virt_bridge'                   => 'xenbr0',
+        'default_virt_file_size'                => 5,
+        'default_virt_ram'                      => 512,
         'default_virt_type'                     => 'xenpv',
         'enable_gpxe'                           => 0,
         'enable_menu'                           => 1,

@@ -16,8 +16,7 @@ describe('cobbler::service') do
     it do
       expect {
         should compile
-      }.to raise_error(RSpec::Expectations::ExpectationNotMetError,
-        /Must pass /)
+      }.to raise_error(RSpec::Expectations::ExpectationNotMetError)
     end
   end
 
