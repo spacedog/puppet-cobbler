@@ -102,12 +102,9 @@ class cobbler (
     service_enable => $service_enable,
   }
 
-
   Anchor['cobbler::begin'] ->
   Class['cobbler::install'] ->
   Class['cobbler::config'] ~>
   Class['cobbler::service'] ->
   Anchor['cobbler::end']
-
-  # Distros
 }
