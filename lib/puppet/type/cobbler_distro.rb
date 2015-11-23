@@ -63,10 +63,4 @@ Puppet::Type.newtype(:cobbler_distro) do
   newproperty(:comment) do
     desc "An optional comment to associate with this distro"
   end
-
-  # Type validation
-  validate do
-    raise ArgumentError, "path is required when ensure is import" if (self[:ensure] == :import and self[:path].nil?)
-  end
-
 end

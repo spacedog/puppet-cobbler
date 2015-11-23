@@ -49,9 +49,20 @@ Puppet::Type.type(:cobbler_distro).provide(:ruby) do
   end
 
   def create
-    # Import if not exists
-    if @property_hash[:ensure] != :present
+    # If path if defined then using import to create new distribution
+    if @resource[:path]
       self.import
+    # Othewise use add command that requires only kernel and initrd parameters
+    else
+      raise ArgumentError, ':kernel and :initrd must be defined' unless @resource[:kernel] and @resource[:initrd]
+      cmd_args = [
+        'distro',
+        'add',
+        "--name=#{@resource[:name]}",
+        "--kernel=#{@resource["kernel"]}",
+        "--initrd=#{@resource["initrd"]}",
+      ]
+      cobbler(cmd_args)
     end
     # set properties as they are not set by defaut
     properties = [
@@ -62,8 +73,8 @@ Puppet::Type.type(:cobbler_distro).provide(:ruby) do
       "owners"
     ]
     for property in properties
-      unless self.send(property) == @resource.should(property) or @resource[property].nil?
-        self.send("#{property}=", @resource.should(property))
+      unless self.send(property) == @resource[property] or @resource[property].nil?
+        self.send("#{property}=", @resource[property])
       end
     end
 
@@ -75,10 +86,9 @@ Puppet::Type.type(:cobbler_distro).provide(:ruby) do
   def destroy
     # remove cobbler distribution
     Puppet.warning("All child objects of #{@resource[:name]} distribution are deleted")
-    
     cobbler(
       [
-        "distro", 
+        "distro",
         "remove",
         "--recursive",
         "--name=#{@resource[:name]}"
@@ -91,10 +101,10 @@ Puppet::Type.type(:cobbler_distro).provide(:ruby) do
     # import cobbler distribution
     cobbler(
       [
-        "import", 
+        "import",
         "--name=#{@resource[:name]}",
         "--arch=#{@resource[:arch]}",
-        "--path=#{@resource[:path]}" 
+        "--path=#{@resource[:path]}"
       ]
     )
   end
@@ -109,7 +119,7 @@ Puppet::Type.type(:cobbler_distro).provide(:ruby) do
         "distro",
         "edit",
         "--name=" + @resource[:name],
-        "--#{what.tr('_','-')}=" + value
+        "--#{what.tr('_','-')}=" + value.to_s
       ]
     )
     @property_hash[what] = value
