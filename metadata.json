@@ -1,14 +1,15 @@
 {
   "name": "abaranov-cobbler",
   "version": "0.1.0",
-  "author": "abaranov",
+  "author": "Anton Baranov <abaranov@linux.com>",
   "summary": null,
   "license": "Apache 2.0",
-  "source": "",
+  "source": "https://github.com/spacedog/puppet-cobbler",
   "project_page": null,
   "issues_url": null,
   "dependencies": [
     {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+    {"name":"puppetlabs-inifile","version_requirement":">= 1.0.0"}
   ]
 }
 
