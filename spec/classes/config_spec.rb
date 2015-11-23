@@ -57,7 +57,7 @@ describe('cobbler::config') do
         'kernel_options'                        => {
           'ksdevice' => 'bootif',
           'lang'     => '',
-          'text'     => '' 
+          'text'     => ''
         },
         'kernel_options_s390x'                  => {
           'RUNKS'        =>  1,
