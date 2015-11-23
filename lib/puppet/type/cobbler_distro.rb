@@ -63,4 +63,8 @@ Puppet::Type.newtype(:cobbler_distro) do
   newproperty(:comment) do
     desc "An optional comment to associate with this distro"
   end
+
+  validate do
+    raise ArgumentError, "path or kernel and initrd is required" unless ((self[:kernel] and self[:initrd]) or self[:path])
+  end
 end
