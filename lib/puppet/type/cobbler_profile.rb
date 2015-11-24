@@ -43,6 +43,7 @@ Puppet::Type.newtype(:cobbler_profile) do
 
 
   newproperty(:repos, :array_matching => :all) do
+    defaultto([])
     desc "Repos to auto-assign to this profile"
   end
   autorequire(:cobbler_repo) do
@@ -51,6 +52,10 @@ Puppet::Type.newtype(:cobbler_profile) do
 
   newproperty(:kopts, :array_matching => :all) do
     desc "Kernel Options"
+  end
+
+  validate do
+    raise ArgumentError, "Distro must be defined for profile" unless self[:distro]
   end
 
 end
