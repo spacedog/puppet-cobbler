@@ -37,9 +37,16 @@ Puppet::Type.newtype(:cobbler_profile) do
       raise ArgumentError, "%s is not valid value for distro" % value  unless value
     end
   end
+  autorequire(:cobbler_distro) do
+    self[:distro] if self[:distro]
+  end
+
 
   newproperty(:repos, :array_matching => :all) do
     desc "Repos to auto-assign to this profile"
+  end
+  autorequire(:cobbler_repo) do
+    self[:repos] if self[:repos]
   end
 
   newproperty(:kopts, :array_matching => :all) do
