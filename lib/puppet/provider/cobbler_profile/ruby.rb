@@ -76,7 +76,7 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
 
   def set_field(what, value)
     if value.is_a? Array
-      value = value.join(' ')
+      value = "'#{value.join(' ')}'"
     end
 
     cobbler(
@@ -105,7 +105,7 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
   # Setters
   def kickstart=(value)
     raise ArgumentError, '%s: not exists' % value unless File.exists? value
-    self.set_field(:kickstart, value)
+    self.set_field("kickstart", value)
   end
 
   def distro=(value)
