@@ -28,14 +28,14 @@ describe Puppet::Type.type(:cobbler_profile) do
     context "ensure" do
       it "should support :present"  do
         Puppet::Type.type(:cobbler_profile).new(
-          :name   => "testrepo1",
+          :name   => "testprofile1",
           :ensure => :present,
           :distro => "testdistro1",
         )
       end
       it "should support :absent" do
         Puppet::Type.type(:cobbler_profile).new(
-          :name => "testrepo1",
+          :name => "testprofile1",
           :ensure => :absent,
           :distro => "testdistro1",
         )
@@ -48,7 +48,7 @@ describe Puppet::Type.type(:cobbler_profile) do
       it "raise error if not set" do
         expect {
           Puppet::Type.type(:cobbler_profile).new(
-            :name           => "testrepo1",
+            :name           => "testprofile1",
             :ensure         => :present,
           )
         }.to raise_error(Puppet::ResourceError)
@@ -57,7 +57,7 @@ describe Puppet::Type.type(:cobbler_profile) do
     context "repos" do
       it "should support array value" do
         Puppet::Type.type(:cobbler_profile).new(
-          :name   => "testrepo1",
+          :name   => "testprofile1",
           :ensure => :present,
           :distro => 'testdistro1',
           :repos  => ['testrepo1','testrepo2'],
@@ -65,7 +65,7 @@ describe Puppet::Type.type(:cobbler_profile) do
       end
       it "should support string value" do
         Puppet::Type.type(:cobbler_profile).new(
-          :name   => "testrepo1",
+          :name   => "testprofile1",
           :ensure => :present,
           :distro => 'testdistro1',
           :repos  => 'testrepo1',
@@ -73,7 +73,7 @@ describe Puppet::Type.type(:cobbler_profile) do
       end
       it "should default to []" do
           Puppet::Type.type(:cobbler_profile).new(
-            :name   => "testrepo1",
+            :name   => "testprofile1",
             :ensure => :present,
             :distro => 'testdistro1',
           )
@@ -82,23 +82,23 @@ describe Puppet::Type.type(:cobbler_profile) do
     context "kopts" do
       it "should support array value" do
         Puppet::Type.type(:cobbler_profile).new(
-          :name   => "testrepo1",
+          :name   => "testprofile1",
           :ensure => :present,
           :distro => 'testdistro1',
-          :kopts  => ['testkopt1','testkopts2'],
+          :kopts  => ['testkopt1','testkopt2'],
         )
       end
       it "should support string value" do
         Puppet::Type.type(:cobbler_profile).new(
-          :name   => "testrepo1",
+          :name   => "testprofile1",
           :ensure => :present,
           :distro => 'testdistro1',
-          :repos  => 'testkopt1',
+          :kopts  => 'testkopt1',
         )
       end
       it "should default to []" do
           Puppet::Type.type(:cobbler_profile).new(
-            :name   => "testrepo1",
+            :name   => "testprofile1",
             :ensure => :present,
             :distro => 'testdistro1',
           )

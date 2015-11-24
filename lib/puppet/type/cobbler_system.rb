@@ -73,4 +73,8 @@ Puppet::Type.newtype(:cobbler_system) do
     desc "System hostname"
   end
 
+  validate do
+    raise ArgumentError, "Profile is required for system object" unless self[:profile]
+  end
+
 end
