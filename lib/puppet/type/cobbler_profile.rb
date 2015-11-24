@@ -16,7 +16,7 @@ Puppet::Type.newtype(:cobbler_profile) do
     end
   end
 
-  newparam(:kickstart) do
+  newproperty(:kickstart) do
     desc "Path to kickstart template"
     validate do |value|
       if value
