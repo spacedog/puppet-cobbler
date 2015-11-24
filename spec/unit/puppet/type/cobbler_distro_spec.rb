@@ -30,7 +30,7 @@ describe Puppet::Type.type(:cobbler_distro) do
     it "raise error if path is not set" do
       expect {
         Puppet::Type.type(:cobbler_distro).new(
-          :name   => "testdistor1",
+          :name   => "testdistro1",
           :ensure => :present
         )
       }.to raise_error(Puppet::ResourceError)
@@ -38,7 +38,7 @@ describe Puppet::Type.type(:cobbler_distro) do
     it "raise error if path is not an absolute path" do
       expect {
         Puppet::Type.type(:cobbler_distro).new(
-          :name   => "testdistor1",
+          :name   => "testdistro1",
           :ensure => :present,
           :path   => 'not/absoulte/path',
         )
@@ -46,14 +46,14 @@ describe Puppet::Type.type(:cobbler_distro) do
     end
     it "should support path parameter" do
       Puppet::Type.type(:cobbler_distro).new(
-        :name   => "testdistor1",
+        :name   => "testdistro1",
         :ensure => :present,
         :path   => '/path/to/mnt',
       )
     end
     it "should support kernel and initrd parameters" do
       Puppet::Type.type(:cobbler_distro).new(
-        :name   => "testdistor1",
+        :name   => "testdistro1",
         :ensure => :present,
         :initrd => '/path/to/initrd',
         :kernel => '/path/to/kernel',
@@ -61,14 +61,14 @@ describe Puppet::Type.type(:cobbler_distro) do
     end
     it "should support :present for ensure parameter" do
       Puppet::Type.type(:cobbler_distro).new(
-        :name => "testdistor1",
+        :name => "testdistro1",
         :ensure => :present,
         :path   => '/path/to/mnt',
       )
     end
     it "should support :absent for ensure parameter" do
       Puppet::Type.type(:cobbler_distro).new(
-        :name => "testdistor1",
+        :name => "testdistro1",
         :ensure => :absent,
         :path   => '/path/to/mnt',
       )
@@ -80,7 +80,7 @@ describe Puppet::Type.type(:cobbler_distro) do
       [:i386, :x86_64, :ia64, :ppc, :ppc64, :s390, :arm].each do |arch|
         it "should suport #{arch}" do
           Puppet::Type.type(:cobbler_distro).new(
-            :name   => "testdistor1",
+            :name   => "testdistro1",
             :ensure => :present,
             :arch   => arch,
             :path   => '/path/to/mnt',
@@ -91,7 +91,7 @@ describe Puppet::Type.type(:cobbler_distro) do
     context "owners" do
       it "should support array as a value" do
         Puppet::Type.type(:cobbler_distro).new(
-          :name   => "testdistor1",
+          :name   => "testdistro1",
           :ensure => :present,
           :path   => '/path/to/mnt',
           :owners => ['admin1', 'admin2'],
@@ -99,7 +99,7 @@ describe Puppet::Type.type(:cobbler_distro) do
       end
       it "should support string as a value" do
         Puppet::Type.type(:cobbler_distro).new(
-          :name   => "testdistor1",
+          :name   => "testdistro1",
           :ensure => :present,
           :path   => '/path/to/mnt',
           :owners => 'admin1'
@@ -107,7 +107,7 @@ describe Puppet::Type.type(:cobbler_distro) do
       end
       it "should default to ['admin']" do
         type = Puppet::Type.type(:cobbler_distro).new(
-          :name   => "testdistor1",
+          :name   => "testdistro1",
           :ensure => :present,
           :path   => '/path/to/mnt',
         )
@@ -117,7 +117,7 @@ describe Puppet::Type.type(:cobbler_distro) do
     context "comment" do
       it "should support string as a value" do
         Puppet::Type.type(:cobbler_distro).new(
-          :name    => "testdistor1",
+          :name    => "testdistro1",
           :ensure  => :present,
           :path    => '/path/to/mnt',
           :comment => 'test comment',
@@ -125,7 +125,7 @@ describe Puppet::Type.type(:cobbler_distro) do
       end
       it "should default to ''" do
         type = Puppet::Type.type(:cobbler_distro).new(
-          :name   => "testdistor1",
+          :name   => "testdistro1",
           :ensure => :present,
           :path   => '/path/to/mnt',
         )
@@ -136,7 +136,7 @@ describe Puppet::Type.type(:cobbler_distro) do
       it "raise error if initrd or path is not set" do
         expect {
           Puppet::Type.type(:cobbler_distro).new(
-            :name   => "testdistor1",
+            :name   => "testdistro1",
             :ensure => :present,
             :kernel => '/path/to/kernel',
           )
@@ -145,7 +145,7 @@ describe Puppet::Type.type(:cobbler_distro) do
       it "raise error if not an absolute path" do
         expect {
           Puppet::Type.type(:cobbler_distro).new(
-            :name   => "testdistor1",
+            :name   => "testdistro1",
             :ensure => :present,
             :kernel => 'not/absolute/path',
             :initrd => '/path/to/initrd',
@@ -154,7 +154,7 @@ describe Puppet::Type.type(:cobbler_distro) do
       end
       it "support absolute path" do
         Puppet::Type.type(:cobbler_distro).new(
-          :name   => "testdistor1",
+          :name   => "testdistro1",
           :ensure => :present,
           :kernel => '/path/to/kernel',
           :initrd => '/path/to/initrd',
@@ -162,7 +162,7 @@ describe Puppet::Type.type(:cobbler_distro) do
       end
       it "should default to nil" do
         type = Puppet::Type.type(:cobbler_distro).new(
-          :name   => "testdistor1",
+          :name   => "testdistro1",
           :ensure => :present,
           :path   => '/path/to/mnt',
         )
@@ -173,7 +173,7 @@ describe Puppet::Type.type(:cobbler_distro) do
       it "raise error if kernel or path is not set" do
         expect {
           Puppet::Type.type(:cobbler_distro).new(
-            :name   => "testdistor1",
+            :name   => "testdistro1",
             :ensure => :present,
             :initrd => '/path/to/initrd',
           )
@@ -182,7 +182,7 @@ describe Puppet::Type.type(:cobbler_distro) do
       it "raise error if not an absolute path" do
         expect {
           Puppet::Type.type(:cobbler_distro).new(
-            :name   => "testdistor1",
+            :name   => "testdistro1",
             :ensure => :present,
             :initrd => 'not/absolute/path',
             :kernel => '/path/to/kernel',
@@ -191,7 +191,7 @@ describe Puppet::Type.type(:cobbler_distro) do
       end
       it "support absolute path" do
         Puppet::Type.type(:cobbler_distro).new(
-          :name   => "testdistor1",
+          :name   => "testdistro1",
           :ensure => :present,
           :kernel => '/path/to/kernel',
           :initrd => '/path/to/initrd',
@@ -199,7 +199,7 @@ describe Puppet::Type.type(:cobbler_distro) do
       end
       it "should default to nil" do
         type = Puppet::Type.type(:cobbler_distro).new(
-          :name   => "testdistor1",
+          :name   => "testdistro1",
           :ensure => :present,
           :path   => '/path/to/mnt',
         )
