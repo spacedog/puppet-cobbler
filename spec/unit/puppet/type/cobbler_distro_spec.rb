@@ -78,7 +78,7 @@ describe Puppet::Type.type(:cobbler_distro) do
   context "when validating properties values" do
     context "arch" do
       [:i386, :x86_64, :ia64, :ppc, :ppc64, :s390, :arm].each do |arch|
-        it "should suport #{arch}" do
+        it "should support #{arch}" do
           Puppet::Type.type(:cobbler_distro).new(
             :name   => "testdistro1",
             :ensure => :present,
