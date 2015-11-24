@@ -72,11 +72,12 @@ describe Puppet::Type.type(:cobbler_profile) do
         )
       end
       it "should default to []" do
-          Puppet::Type.type(:cobbler_profile).new(
-            :name   => "testprofile1",
-            :ensure => :present,
-            :distro => 'testdistro1',
-          )
+        type = Puppet::Type.type(:cobbler_profile).new(
+          :name   => "testprofile1",
+          :ensure => :present,
+          :distro => 'testdistro1',
+        )
+        expect(type.should(:repos)).to eq([])
       end
     end
     context "kopts" do
@@ -97,11 +98,12 @@ describe Puppet::Type.type(:cobbler_profile) do
         )
       end
       it "should default to []" do
-          Puppet::Type.type(:cobbler_profile).new(
-            :name   => "testprofile1",
-            :ensure => :present,
-            :distro => 'testdistro1',
-          )
+        type = Puppet::Type.type(:cobbler_profile).new(
+          :name   => "testprofile1",
+          :ensure => :present,
+          :distro => 'testdistro1',
+        )
+        expect(type.should(:kopts)).to eq([])
       end
     end
   end
