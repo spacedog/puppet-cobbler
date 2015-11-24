@@ -51,6 +51,7 @@ Puppet::Type.newtype(:cobbler_profile) do
   end
 
   newproperty(:kopts, :array_matching => :all) do
+    defaultto([])
     desc "Kernel Options"
   end
 
