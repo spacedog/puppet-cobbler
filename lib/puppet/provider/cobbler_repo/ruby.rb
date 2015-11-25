@@ -74,7 +74,7 @@ Puppet::Type.type(:cobbler_repo).provide(:ruby) do
 
   def set_field(what, value)
     if value.is_a? Array
-      value = "'#{value.join(' ')}'"
+      value = "#{value.join(' ')}"
     end
 
     cobbler(
