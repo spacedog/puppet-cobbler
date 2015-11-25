@@ -4,9 +4,101 @@
 #
 # === Parameters
 #
-# === Variables
+# [*cobbler_config*]
+#   Hash of cobbler settings options. This hash is merged with the
+#   default_cobbler_config hash from params class. All this options go to the
+#   file defined with config_file parameter. There are no checks (yet?) done to
+#   verify options passed with that hash
 #
-# === Examples
+#   Type: Hash
+#   Default: {}
+#
+# [*cobbler_modules_config*]
+#   Hash of cobbler modules configuration. Puppetlabs-inifile module is used
+#   to manage cobbler modules. This dictates how cobbler_modules_config must be
+#   build (check puppetlabs-inifile documentation for details). This hash is
+#   merged with the default_modules_config hash from params class.
+#
+#   Type: Hash
+#   Default: {}
+#
+# [*ensure*]
+#   The state of puppet resources within the module.
+#
+#   Type: String
+#   Values: 'present', 'absent'
+#   Default: 'present'
+#
+# [*package*]
+#   The package name or array of packages that provides cobbler.
+#
+#   Type: String or Array
+#   Default: check cobbler::params::package
+#
+# [*package_ensure*]
+#   The state of the package.
+#
+#   Type: String
+#   Values: present, installed, absent, purged, held, latest, *.*
+#   Default: installed
+#
+# [*service*]
+#   Name of the service this modules is responsible to manage.
+#
+#   Type: String
+#   Default: cobblerd
+#
+# [*service_ensure*]
+#   The state of the serivce in the system
+#
+#   Type: String
+#   Values: stopped, running
+#   Default: running
+#
+# [*service_enable*]
+#   Whether a service should be enabled to start at boot
+#
+#   Type: boolean or string
+#   Values: true, false, manual, mask
+#   Default: true
+#
+# [*config_path*]
+#   The absolute path where cobbler configuration files reside. This to prepend
+#   to config_file and config_modules options to build full paths to setttings
+#   and modules.conf files.
+#
+#   Type: String
+#   Default: /etc/cobbler
+#
+# [*config_file*]
+#   The title of main cobbler configuration file. The full path to that file is
+#   build by prepending config_file with config_path parameters
+#
+#   Type: String
+#   Default: settings
+#
+# [*config_modules*]
+#   The title of cobbler modules configuration file. The full path to that file
+#   is build by prepending config_modules with config_path parameters
+#
+#   Type: String
+#   Default: modules.conf
+#
+# [*default_cobbler_config*]
+#   Hash that contains default configuration options for cobbler. No checks are
+#   performed to validate these configuration options. This is a left side hash
+#   to be merged with cobbler_config hash to build config_file for cobbler
+#
+#   Type: Hash
+#   Default: check cobbler::params::default_cobbler_config
+#
+# [*default_modules_config*]
+#   Hash that contains default configuration options for cobbler modules.
+#   This is a left side hash  to be merged with cobbler_modules_config hash to
+#   build config_modules file  for cobbler
+#
+#   Type: Hash
+#   Default: check cobbler::params::default_modules_config
 #
 # === Authors
 #
@@ -41,11 +133,11 @@ class cobbler (
   ])
   validate_string(
     $service,
+    $config_file,
+    $config_modules
   )
   validate_absolute_path(
     $config_path,
-    $config_file,
-    $config_modules,
   )
   validate_hash(
     $default_cobbler_config,

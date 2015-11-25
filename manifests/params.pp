@@ -21,8 +21,8 @@ class cobbler::params {
   $service_ensure         = 'running'
   $service_enable         = true
   $config_path            = '/etc/cobbler'
-  $config_file            = "${config_path}/settings"
-  $config_modules         = "${config_path}/modules.conf"
+  $config_file            = 'settings'
+  $config_modules         = 'modules.conf'
   # Default config you have just after cobbler is installed
   # Just load yaml as cobbler use yaml format for $config_file
   $default_cobbler_config = {

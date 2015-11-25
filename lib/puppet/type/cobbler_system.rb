@@ -64,6 +64,9 @@ Puppet::Type.newtype(:cobbler_system) do
       raise ArgumentError, "Profile must be specified"  if value.nil?
     end
   end
+  autorequire(:cobbler_profile) do
+    self[:profile]
+  end
 
   newproperty(:server) do
     desc "Server Override"
