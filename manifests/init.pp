@@ -14,10 +14,15 @@
 #   Default: {}
 #
 # [*cobbler_modules_config*]
-#   Hash of cobbler modules configuration. Puppetlabs-inifile module is used
-#   to manage cobbler modules. This dictates how cobbler_modules_config must be
-#   build (check puppetlabs-inifile documentation for details). This hash is
+#   Hash of cobbler modules configuration. This hash is
 #   merged with the default_modules_config hash from params class.
+#   Exapmple:
+#     cobbler_modules_config => {
+#       section1             => {
+#         var1 = value1,
+#         var2 => [ value1, value2],
+#       }
+#     }
 #
 #   Type: Hash
 #   Default: {}
