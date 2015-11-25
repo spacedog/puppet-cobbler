@@ -67,6 +67,10 @@ Puppet::Type.type(:cobbler_system).provide(:ruby) do
       end
     end
 
+    unless self.interfaces == @resource.should(:interfaces) or @resource[:interfaces].nil?
+      self.interfaces = @resource.should(:interfaces)
+    end
+
     cobbler("sync")
     @property_hash[:ensure] = :present
   end
