@@ -144,7 +144,7 @@ create_resources('cobble_system', $systems)
 
 ## Reference
 
-That modules contains:
+That module contains:
  + Custom types:
     * cobbler_distro
     * cobbler_repo
