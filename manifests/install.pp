@@ -14,7 +14,7 @@
 #   The state of the package.
 #
 #   Type: String
-#   Values: present, installed, absent, purged, held, latest, *.*
+#   Values: present, installed, absent, purged, held, latest
 #   Default: installed
 #
 # == Authors
@@ -32,7 +32,6 @@ class cobbler::install (
     '^purged$',
     '^held$',
     '^latest$',
-    '*.*'
   ])
 
   if is_array($package) {

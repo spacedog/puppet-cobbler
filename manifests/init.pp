@@ -39,7 +39,7 @@
 #   The state of the package.
 #
 #   Type: String
-#   Values: present, installed, absent, purged, held, latest, *.*
+#   Values: present, installed, absent, purged, held, latest
 #   Default: installed
 #
 # [*service*]
@@ -129,7 +129,6 @@ class cobbler (
     '^purged$',
     '^held$',
     '^latest$',
-    '*.*'
   ])
   validate_string(
     $service,
