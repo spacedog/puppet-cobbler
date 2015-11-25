@@ -1,15 +1,24 @@
 {
   "name": "abaranov-cobbler",
   "version": "0.1.0",
-  "author": "Anton Baranov <abaranov@linux.com>",
-  "summary": null,
+  "author": "abaranov",
+  "summary": "Module to manage cobbler: linux installation server that allows for rapid setup of network installation environments",
   "license": "Apache 2.0",
   "source": "https://github.com/spacedog/puppet-cobbler",
-  "project_page": null,
-  "issues_url": null,
+  "project_page": "https://github.com/spacedog/puppet-cobbler",
+  "issues_url": "https://github.com/spacedog/puppet-cobbler/issues",
   "dependencies": [
-    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
-    {"name":"puppetlabs-inifile","version_requirement":">= 1.0.0"}
+    {"name":"puppetlabs-stdlib","version_requirement":">= 4.6.0"}
   ]
+  "operatingsystem_support": [
+    {
+    "operatingsystem":"RedHat",
+    "operatingsystemrelease":[ "6.0", "7.0" ]
+  },
+  {
+    "operatingsystem":"CentOS",
+    "operatingsystemrelease":[ "6.0", "7.0" ]
+  }
+  ],
 }
 
