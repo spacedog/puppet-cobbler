@@ -137,8 +137,8 @@ describe('cobbler::config') do
         'tftpd'          => {'module' => 'manage_in_tftpd'},
       },
       'config_path'            => '/etc/cobbler',
-      'config_file'            => '/etc/cobbler/settings',
-      'config_modules'         => '/etc/cobbler/modules.conf',
+      'config_file'            => 'settings',
+      'config_modules'         => 'modules.conf',
     }
   }
 
