@@ -18,9 +18,12 @@
 #   merged with the default_modules_config hash from params class.
 #   Exapmple:
 #     cobbler_modules_config => {
-#       section1             => {
-#         var1 = value1,
-#         var2 => [ value1, value2],
+#       section1            => {
+#         option1 => value1,
+#         option2 => [ value1, value2],
+#       },
+#       section2.subsection => {
+#         option3 => value3,
 #       }
 #     }
 #
