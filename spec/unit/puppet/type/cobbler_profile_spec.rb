@@ -17,6 +17,7 @@ describe Puppet::Type.type(:cobbler_profile) do
       :kickstart,
       :kopts,
       :repos,
+      :dhcp_tag
     ].each do |prop|
       it "should have a #{prop} property" do
         expect(Puppet::Type.type(:cobbler_profile).attrtype(prop)).to eq(:property)
@@ -78,6 +79,24 @@ describe Puppet::Type.type(:cobbler_profile) do
           :distro => 'testdistro1',
         )
         expect(type.should(:repos)).to eq([])
+      end
+    end
+    context "dhcp_tag" do
+      it "should support string value" do
+        Puppet::Type.type(:cobbler_profile).new(
+          :name     => "testprofile1",
+          :ensure   => :present,
+          :distro   => 'testdistro1',
+          :dhcp_tag => 'testtag1',
+        )
+      end
+      it "should default to 'default'" do
+        type = Puppet::Type.type(:cobbler_profile).new(
+          :name   => "testprofile1",
+          :ensure => :present,
+          :distro => 'testdistro1',
+        )
+        expect(type.should(:dhcp_tag)).to eq('default')
       end
     end
     context "kopts" do

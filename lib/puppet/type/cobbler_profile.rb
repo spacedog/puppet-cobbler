@@ -41,6 +41,10 @@ Puppet::Type.newtype(:cobbler_profile) do
     self[:distro] if self[:distro]
   end
 
+  newproperty(:dhcp_tag) do
+    desc 'DHCP tags for multiple networks usage'
+    defaultto('default')
+  end
 
   newproperty(:repos, :array_matching => :all) do
     defaultto([])

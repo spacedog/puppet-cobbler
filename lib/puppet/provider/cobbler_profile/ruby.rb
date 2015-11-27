@@ -27,6 +27,7 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
         :name      => profile["name"],
         :ensure    => :present,
         :distro    => profile["distro"],
+        :dhcp_tag  => profile["dhcp_tag"],
         :kickstart => profile["kickstart"],
         :kopts     => profile["kopts"],
         :repos     => profile["repos"]
@@ -60,6 +61,7 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
     # set properties as they are not set by defaut
     properties = [
       "distro",
+      "dhcp_tag",
       "kickstart",
       "repos",
       "kopts"
@@ -113,6 +115,10 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
     self.set_field("distro", value)
   end
 
+  def dhcp_tag=(value)
+    self.set_field("dhcp_tag", value)
+  end
+
   def kopts=(value)
     self.set_field("kopts", value)
   end
@@ -120,5 +126,6 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
   def repos=(value)
     self.set_field("repos", value)
   end
+
 
 end
