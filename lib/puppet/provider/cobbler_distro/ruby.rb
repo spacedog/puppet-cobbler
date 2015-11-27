@@ -94,6 +94,7 @@ Puppet::Type.type(:cobbler_distro).provide(:ruby) do
         "--name=#{@resource[:name]}"
       ]
     )
+    cobbler('sync')
     @property_hash.clear
   end
 
@@ -122,6 +123,7 @@ Puppet::Type.type(:cobbler_distro).provide(:ruby) do
         "--#{what.tr('_','-')}=" + value.to_s
       ]
     )
+    cobbler('sync')
     @property_hash[what] = value
   end
 
