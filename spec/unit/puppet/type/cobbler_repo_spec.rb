@@ -17,6 +17,7 @@ describe Puppet::Type.type(:cobbler_repo) do
       :mirror,
       :rpmlist,
       :mirror_locally,
+      :breed
     ].each do |prop|
       it "should have a #{prop} property" do
         expect(Puppet::Type.type(:cobbler_repo).attrtype(prop)).to eq(:property)
@@ -159,6 +160,59 @@ describe Puppet::Type.type(:cobbler_repo) do
           :ensure => :present,
         )
         expect(type.should(:kernel)).nil?
+      end
+    end
+    context "breed" do
+      it "support rsync" do
+        Puppet::Type.type(:cobbler_repo).new(
+          :name   => "testrepo1",
+          :ensure => :present,
+          :breed  => 'rsync'
+        )
+      end
+      it "support rhn" do
+        Puppet::Type.type(:cobbler_repo).new(
+          :name   => "testrepo1",
+          :ensure => :present,
+          :breed  => 'rhn'
+        )
+      end
+      it "support yum" do
+        Puppet::Type.type(:cobbler_repo).new(
+          :name   => "testrepo1",
+          :ensure => :present,
+          :breed  => 'yum'
+        )
+      end
+      it "support apt" do
+        Puppet::Type.type(:cobbler_repo).new(
+          :name   => "testrepo1",
+          :ensure => :present,
+          :breed  => 'apt'
+        )
+      end
+      it "support wget" do
+        Puppet::Type.type(:cobbler_repo).new(
+          :name   => "testrepo1",
+          :ensure => :present,
+          :breed  => 'wget'
+        )
+      end
+      it "raise error if any other value" do
+        expect {
+          Puppet::Type.type(:cobbler_repo).new(
+            :name   => "testrepo1",
+            :ensure => :present,
+            :breed => 'any_other_value',
+          )
+        }.to raise_error(Puppet::ResourceError)
+      end
+      it "should default to :rsync" do
+        type = Puppet::Type.type(:cobbler_repo).new(
+          :name   => "testrepo1",
+          :ensure => :present,
+        )
+        expect(type.should(:breed)).to eq(:rsync)
       end
     end
   end

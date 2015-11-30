@@ -26,6 +26,7 @@ Puppet::Type.type(:cobbler_repo).provide(:ruby) do
         :name           => repo["name"],
         :ensure         => :present,
         :arch           => repo["arch"],
+        :breed          => repo["breed"],
         :mirror         => repo["mirror"],
         :mirror_locally => repo["mirror_locally"].to_s,
         :rpmlist        => repo["rpmlist"],
@@ -59,6 +60,7 @@ Puppet::Type.type(:cobbler_repo).provide(:ruby) do
     # set properties as they are not set by defaut
     properties = [
       "arch",
+      "breed",
       "mirror_locally",
       "rpmlist"
     ]
@@ -85,6 +87,7 @@ Puppet::Type.type(:cobbler_repo).provide(:ruby) do
         "--#{what.tr('_','-')}=" + value.to_s
       ]
     )
+    cobbler('sync')
     @property_hash[what] = value
   end
 
@@ -109,6 +112,10 @@ Puppet::Type.type(:cobbler_repo).provide(:ruby) do
   # Setters
   def arch=(value)
     self.set_field("arch", value)
+  end
+
+  def breed=(value)
+    self.set_field("breed", value)
   end
 
   def mirror=(value)

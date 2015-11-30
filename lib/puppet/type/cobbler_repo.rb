@@ -33,6 +33,11 @@ Puppet::Type.newtype(:cobbler_repo) do
     defaultto(:x86_64)
   end
 
+  newproperty(:breed) do
+    newvalues(:rsync, :rhn, :wget, :yum, :apt, :wget)
+    defaultto(:rsync)
+  end
+
   newproperty(:rpmlist, :array_matching => :all) do
     desc "List of package names part of a repo"
     defaultto([])
