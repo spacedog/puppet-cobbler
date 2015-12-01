@@ -51,6 +51,16 @@ Puppet::Type.newtype(:cobbler_distro) do
     end
   end
 
+  newproperty(:ksmeta) do
+    desc "Sets variables available for use in templates"
+    defaultto({})
+    validate do |value|
+      unless value.is_a? Hash
+        raise ArgumentError, "ksmeta parameter is not a hash"
+      end
+    end
+  end
+
   newproperty(:initrd) do
     desc "An absolute filesystem path to a initrd image"
     validate do |value|

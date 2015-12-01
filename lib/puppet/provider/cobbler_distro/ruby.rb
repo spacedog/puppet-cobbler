@@ -28,6 +28,7 @@ Puppet::Type.type(:cobbler_distro).provide(:ruby) do
         :ensure  => :present,
         :arch    => distro['arch'],
         :kernel  => distro['kernel'],
+        :ksmeta  => distro['ks_meta'],
         :initrd  => distro['initrd'],
         :comment => distro['comment'],
         :owners  => distro['owners']
@@ -114,6 +115,9 @@ Puppet::Type.type(:cobbler_distro).provide(:ruby) do
     if value.is_a? Array
       value = "#{value.join(' ')}"
     end
+    if value.is_a? Hash
+      value  = value.map{|k,v| "#{k}=#{v}"}.join(" ")
+    end
 
     cobbler(
       [
@@ -148,5 +152,9 @@ Puppet::Type.type(:cobbler_distro).provide(:ruby) do
 
   def arch=(value)
     self.set_field("arch", value)
+  end
+
+  def ksmeta=(value)
+    self.set_field("ksmeta", value)
   end
 end

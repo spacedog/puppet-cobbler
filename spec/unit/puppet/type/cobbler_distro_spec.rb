@@ -18,6 +18,7 @@ describe Puppet::Type.type(:cobbler_distro) do
       :comment,
       :initrd,
       :kernel,
+      :ksmeta,
       :owners,
     ].each do |prop|
       it "should have a #{prop} property" do
@@ -167,6 +168,34 @@ describe Puppet::Type.type(:cobbler_distro) do
           :path   => '/path/to/mnt',
         )
         expect(type.should(:kernel)).nil?
+      end
+    end
+    context "ksmeta" do
+      it "should support hash" do
+        Puppet::Type.type(:cobbler_distro).new(
+          :name   => "testdistro1",
+          :ensure => :present,
+          :path   => '/path/to/mnt',
+          :ksmeta => {'key': 'value'},
+        )
+      end
+      it "should rise error if not a hash" do
+        expect {
+          Puppet::Type.type(:cobbler_distro).new(
+            :name   => "testdistro1",
+            :ensure => :present,
+            :path   => '/path/to/mnt',
+            :ksmeta => 'not_a_hash',
+          )
+        }.to raise_error(Puppet::ResourceError)
+      end
+      it "should default to {}" do
+        type = Puppet::Type.type(:cobbler_distro).new(
+          :name   => "testdistro1",
+          :ensure => :present,
+          :path   => '/path/to/mnt',
+        )
+        expect(type.should(:ksmeta)).to eq({})
       end
     end
     context "initrd" do
