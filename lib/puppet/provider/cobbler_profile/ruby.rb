@@ -24,13 +24,14 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
     # get properties of current system to @property_hash
     xmlresult.each do |profile|
       profiles << new(
-        :name      => profile["name"],
-        :ensure    => :present,
-        :distro    => profile["distro"],
-        :dhcp_tag  => profile["dhcp_tag"],
-        :kickstart => profile["kickstart"],
-        :kopts     => profile["kopts"],
-        :repos     => profile["repos"]
+        :name       => profile["name"],
+        :ensure     => :present,
+        :distro     => profile["distro"],
+        :dhcp_tag   => profile["dhcp_tag"],
+        :kickstart  => profile["kickstart"],
+        :kopts      => profile["kopts"],
+        :kopts_post => profile["kopts_post"],
+        :repos      => profile["repos"]
       )
     end
     profiles
@@ -64,7 +65,8 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
       "dhcp_tag",
       "kickstart",
       "repos",
-      "kopts"
+      "kopts",
+      "kopts_post"
     ]
     for property in properties
       unless self.send(property) == @resource.should(property) or @resource[property].nil?
@@ -97,7 +99,7 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
     # remove cobbler profile
     cobbler(
       [
-        "profile", 
+        "profile",
         "remove",
         "--name=#{@resource[:name]}"
       ]
@@ -121,6 +123,10 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
 
   def kopts=(value)
     self.set_field("kopts", value)
+  end
+
+  def kopts_post=(value)
+    self.set_field("kopts_post", value)
   end
 
   def repos=(value)

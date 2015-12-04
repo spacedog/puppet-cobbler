@@ -59,6 +59,11 @@ Puppet::Type.newtype(:cobbler_profile) do
     desc "Kernel Options"
   end
 
+  newproperty(:kopts_post, :array_matching => :all) do
+    defaultto([])
+    desc "Governs kernel options on the installed OS"
+  end
+
   validate do
     raise ArgumentError, "Distro must be defined for profile" unless self[:distro]
   end

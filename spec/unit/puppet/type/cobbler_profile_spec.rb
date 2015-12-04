@@ -16,6 +16,7 @@ describe Puppet::Type.type(:cobbler_profile) do
       :distro,
       :kickstart,
       :kopts,
+      :kopts_post,
       :repos,
       :dhcp_tag
     ].each do |prop|
@@ -99,30 +100,35 @@ describe Puppet::Type.type(:cobbler_profile) do
         expect(type.should(:dhcp_tag)).to eq('default')
       end
     end
-    context "kopts" do
-      it "should support array value" do
-        Puppet::Type.type(:cobbler_profile).new(
-          :name   => "testprofile1",
-          :ensure => :present,
-          :distro => 'testdistro1',
-          :kopts  => ['testkopt1','testkopt2'],
-        )
-      end
-      it "should support string value" do
-        Puppet::Type.type(:cobbler_profile).new(
-          :name   => "testprofile1",
-          :ensure => :present,
-          :distro => 'testdistro1',
-          :kopts  => 'testkopt1',
-        )
-      end
-      it "should default to []" do
-        type = Puppet::Type.type(:cobbler_profile).new(
-          :name   => "testprofile1",
-          :ensure => :present,
-          :distro => 'testdistro1',
-        )
-        expect(type.should(:kopts)).to eq([])
+    [
+      :kopts,
+      :kopts_post
+    ].each do |param|
+      context param do
+        it "should support array value" do
+          Puppet::Type.type(:cobbler_profile).new(
+            :name   => "testprofile1",
+            :ensure => :present,
+            :distro => 'testdistro1',
+            param   => ['testkopt1','testkopt2'],
+          )
+        end
+        it "should support string value" do
+          Puppet::Type.type(:cobbler_profile).new(
+            :name   => "testprofile1",
+            :ensure => :present,
+            :distro => 'testdistro1',
+            param   => 'testkopt1',
+          )
+        end
+        it "should default to []" do
+          type = Puppet::Type.type(:cobbler_profile).new(
+            :name   => "testprofile1",
+            :ensure => :present,
+            :distro => 'testdistro1',
+          )
+          expect(type.should(param)).to eq([])
+        end
       end
     end
   end
