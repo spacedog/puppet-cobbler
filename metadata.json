@@ -1,6 +1,6 @@
 {
   "name": "abaranov-cobbler",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "author": "abaranov",
   "summary": "Module manages cobbler: linux installation server that allows for rapid setup of network installation environments",
   "license": "Apache-2.0",
