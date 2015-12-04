@@ -23,12 +23,14 @@ Puppet::Type.type(:cobbler_system).provide(:ruby) do
     # get properties of current system to @property_hash
     xmlresult.each do |system|
       systems << new(
-        :name        => system["name"],
-        :ensure      => :present,
-        :profile     => system["profile"],
-        :hostname    => system["hostname"],
-        :interfaces  => system["interfaces"],
-        :server      => system["server"]
+        :name                     => system["name"],
+        :ensure                   => :present,
+        :profile                  => system["profile"],
+        :hostname                 => system["hostname"],
+        :interfaces               => system["interfaces"],
+        :redhat_management_server => system["redhat_management_server"],
+        :redhat_management_key    => system["redhat_management_key"],
+        :server                   => system["server"]
       )
     end
     systems
@@ -59,6 +61,8 @@ Puppet::Type.type(:cobbler_system).provide(:ruby) do
     # set properties as they are not set by defaut
     properties = [
       "hostname",
+      "redhat_management_server",
+      "redhat_management_key",
       "server",
     ]
     for property in properties
@@ -119,6 +123,14 @@ Puppet::Type.type(:cobbler_system).provide(:ruby) do
 
   def gateway=(value)
     self.set_field("gateway", value)
+  end
+
+  def redhat_management_server=(value)
+    self.set_field("redhat_management_server", value)
+  end
+
+  def redhat_management_key=(value)
+    self.set_field("redhat_management_key", value)
   end
 
   def interfaces=(value)

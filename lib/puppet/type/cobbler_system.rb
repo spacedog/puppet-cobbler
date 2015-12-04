@@ -68,6 +68,14 @@ Puppet::Type.newtype(:cobbler_system) do
     self[:profile]
   end
 
+  newproperty(:redhat_management_key) do
+    desc "Red Hat authorization key to use to register system"
+  end
+
+  newproperty(:redhat_management_server) do
+    desc "The RHN Satellite or Spacewalk server to use for registration"
+  end
+
   newproperty(:server) do
     desc "Server Override"
   end

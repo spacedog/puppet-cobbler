@@ -16,6 +16,8 @@ describe Puppet::Type.type(:cobbler_system) do
       :hostname,
       :interfaces,
       :profile,
+      :redhat_management_key,
+      :redhat_management_server,
       :server,
     ].each do |prop|
       it "should have a #{prop} property" do
@@ -156,6 +158,8 @@ describe Puppet::Type.type(:cobbler_system) do
     end
     [
       :hostname,
+      :redhat_management_key,
+      :redhat_management_server,
       :server
     ].each do |param|
       context param do
