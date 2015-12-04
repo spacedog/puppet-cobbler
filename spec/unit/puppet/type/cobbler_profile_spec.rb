@@ -105,29 +105,31 @@ describe Puppet::Type.type(:cobbler_profile) do
       :kopts_post
     ].each do |param|
       context param do
-        it "should support array value" do
+        it "should support hash value" do
           Puppet::Type.type(:cobbler_profile).new(
             :name   => "testprofile1",
             :ensure => :present,
             :distro => 'testdistro1',
-            param   => ['testkopt1','testkopt2'],
+            param   =>  {'testkopt1' => '~','testkopt2' =>'testvalue2' },
           )
         end
-        it "should support string value" do
-          Puppet::Type.type(:cobbler_profile).new(
-            :name   => "testprofile1",
-            :ensure => :present,
-            :distro => 'testdistro1',
-            param   => 'testkopt1',
-          )
+        it "should raise error if not a hash " do
+          expect { 
+            Puppet::Type.type(:cobbler_profile).new(
+              :name   => "testprofile1",
+              :ensure => :present,
+              :distro => 'testdistro1',
+              param   => 'not/a/hash',
+            )
+          }.to raise_error(Puppet::ResourceError)
         end
-        it "should default to []" do
+        it "should default to {}" do
           type = Puppet::Type.type(:cobbler_profile).new(
             :name   => "testprofile1",
             :ensure => :present,
             :distro => 'testdistro1',
           )
-          expect(type.should(param)).to eq([])
+          expect(type.should(param)).to eq({})
         end
       end
     end

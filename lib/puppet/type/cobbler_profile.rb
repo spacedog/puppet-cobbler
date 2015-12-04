@@ -54,14 +54,23 @@ Puppet::Type.newtype(:cobbler_profile) do
     self[:repos] if self[:repos]
   end
 
-  newproperty(:kopts, :array_matching => :all) do
-    defaultto([])
+  newproperty(:kopts) do
     desc "Kernel Options"
+    defaultto({})
+    validate do |value|
+      unless value.is_a? Hash
+        raise ArgumentError, "Kopts parameter accepts only Hash"
+      end
+    end
   end
-
-  newproperty(:kopts_post, :array_matching => :all) do
-    defaultto([])
+  newproperty(:kopts_post) do
     desc "Governs kernel options on the installed OS"
+    defaultto({})
+    validate do |value|
+      unless value.is_a? Hash
+        raise ArgumentError, "Kopts_post parameter accepts only Hash"
+      end
+    end
   end
 
   validate do

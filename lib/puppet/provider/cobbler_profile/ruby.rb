@@ -29,8 +29,8 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
         :distro     => profile["distro"],
         :dhcp_tag   => profile["dhcp_tag"],
         :kickstart  => profile["kickstart"],
-        :kopts      => profile["kopts"],
-        :kopts_post => profile["kopts_post"],
+        :kopts      => profile["kernel_options"],
+        :kopts_post => profile["kernel_options_post"],
         :repos      => profile["repos"]
       )
     end
@@ -95,6 +95,14 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
     @property_hash[what] = value
   end
 
+  def set_kernel_options(name, value)
+    str_value = ''
+    if value.is_a? Hash
+      str_value = value.map{ |k,v| v=='~' ? "#{k}" : "#{k}=#{v}" }.join(' ')
+    end
+    set_field(name, str_value)
+  end
+
   def destroy
     # remove cobbler profile
     cobbler(
@@ -122,11 +130,11 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
   end
 
   def kopts=(value)
-    self.set_field("kopts", value)
+    self.set_kernel_options("kopts", value)
   end
 
   def kopts_post=(value)
-    self.set_field("kopts_post", value)
+    self.set_kernel_options("kopts_post", value)
   end
 
   def repos=(value)
