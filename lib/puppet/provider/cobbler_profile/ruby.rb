@@ -32,6 +32,7 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
         :kopts      => profile["kernel_options"],
         :kopts_post => profile["kernel_options_post"],
         :repos      => profile["repos"],
+        :virt_cpus  => profile["virt_cpus"],
         :virt_type  => profile["virt_type"]
       )
     end
@@ -68,6 +69,7 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
       "repos",
       "kopts",
       "kopts_post",
+      "virt_cpus",
       "virt_type",
     ]
     for property in properties
@@ -141,6 +143,10 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
 
   def repos=(value)
     self.set_field("repos", value)
+  end
+
+  def virt_cpus=(value)
+    self.set_field("virt_cpus", value)
   end
 
   def virt_type=(value)

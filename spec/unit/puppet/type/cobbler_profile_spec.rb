@@ -133,6 +133,34 @@ describe Puppet::Type.type(:cobbler_profile) do
         end
       end
     end
+    context "virt_cpus" do
+      it "should support integer value" do
+          Puppet::Type.type(:cobbler_profile).new(
+            :name      => "testprofile1",
+            :ensure    => :present,
+            :distro    => 'testdistro1',
+            :virt_cpus => 1,
+          )
+      end
+      it "should raise error if not an integer" do
+          expect {
+            Puppet::Type.type(:cobbler_profile).new(
+              :name      => "testprofile1",
+              :ensure    => :present,
+              :distro    => 'testdistro1',
+              :virt_cpus => 'not_an_integer',
+            )
+          }.to raise_error(Puppet::ResourceError)
+      end
+      it "should default to nil" do
+        type = Puppet::Type.type(:cobbler_profile).new(
+          :name   => "testprofile1",
+          :ensure => :present,
+          :distro => 'testdistro1',
+        )
+        expect(type.should(:virt_cpus)).nil?
+      end
+    end
     context "virt_type" do
       [:xenpv, :xenfv, :qemu, :kvm, :vmware,:openvz].each do |value|
         it "should support #{value}" do
@@ -153,6 +181,14 @@ describe Puppet::Type.type(:cobbler_profile) do
             :virt_type => 'not_valid_value',
           )
         }.to raise_error(Puppet::ResourceError)
+      end
+      it "should default to nil" do
+        type = Puppet::Type.type(:cobbler_profile).new(
+          :name   => "testprofile1",
+          :ensure => :present,
+          :distro => 'testdistro1',
+        )
+        expect(type.should(:virt_type)).nil?
       end
     end
   end

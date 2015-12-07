@@ -63,12 +63,22 @@ Puppet::Type.newtype(:cobbler_profile) do
       end
     end
   end
+
   newproperty(:kopts_post) do
     desc "Governs kernel options on the installed OS"
     defaultto({})
     validate do |value|
       unless value.is_a? Hash
         raise ArgumentError, "Kopts_post parameter accepts only Hash"
+      end
+    end
+  end
+
+  newproperty(:virt_cpus) do
+    desc "How many virtual CPUs should koan give the virtual machine"
+    validate do |value|
+      unless value.is_a? Integer
+        raise ArgumentError, "Virt_cpus parameter accepts only integer value"
       end
     end
   end
