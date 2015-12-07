@@ -83,6 +83,15 @@ Puppet::Type.newtype(:cobbler_profile) do
     end
   end
 
+  newproperty(:virt_ram) do
+    desc "How many megabytes of RAM to consume"
+    validate do |value|
+      unless value.is_a? Integer
+        raise ArgumentError, "Virt_ram parameter accepts only integer value"
+      end
+    end
+  end
+
   newproperty(:virt_type) do
     desc "Virtualization technology to use"
     newvalues(

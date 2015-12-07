@@ -33,6 +33,7 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
         :kopts_post => profile["kernel_options_post"],
         :repos      => profile["repos"],
         :virt_cpus  => profile["virt_cpus"],
+        :virt_ram   => profile["virt_ram"],
         :virt_type  => profile["virt_type"]
       )
     end
@@ -147,6 +148,10 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
 
   def virt_cpus=(value)
     self.set_field("virt_cpus", value)
+  end
+
+  def virt_ram=(value)
+    self.set_field("virt_ram", value)
   end
 
   def virt_type=(value)

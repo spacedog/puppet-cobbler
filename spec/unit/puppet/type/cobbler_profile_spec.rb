@@ -114,7 +114,7 @@ describe Puppet::Type.type(:cobbler_profile) do
           )
         end
         it "should raise error if not a hash " do
-          expect { 
+          expect {
             Puppet::Type.type(:cobbler_profile).new(
               :name   => "testprofile1",
               :ensure => :present,
@@ -133,32 +133,37 @@ describe Puppet::Type.type(:cobbler_profile) do
         end
       end
     end
-    context "virt_cpus" do
-      it "should support integer value" do
-          Puppet::Type.type(:cobbler_profile).new(
-            :name      => "testprofile1",
-            :ensure    => :present,
-            :distro    => 'testdistro1',
-            :virt_cpus => 1,
-          )
-      end
-      it "should raise error if not an integer" do
-          expect {
+    [
+      :virt_cpus,
+      :virt_ram
+    ].each do |param|
+      context param do
+        it "should support integer value" do
             Puppet::Type.type(:cobbler_profile).new(
-              :name      => "testprofile1",
-              :ensure    => :present,
-              :distro    => 'testdistro1',
-              :virt_cpus => 'not_an_integer',
+              :name   => "testprofile1",
+              :ensure => :present,
+              :distro => 'testdistro1',
+              param   => 1,
             )
-          }.to raise_error(Puppet::ResourceError)
-      end
-      it "should default to nil" do
-        type = Puppet::Type.type(:cobbler_profile).new(
-          :name   => "testprofile1",
-          :ensure => :present,
-          :distro => 'testdistro1',
-        )
-        expect(type.should(:virt_cpus)).nil?
+        end
+        it "should raise error if not an integer" do
+            expect {
+              Puppet::Type.type(:cobbler_profile).new(
+                :name   => "testprofile1",
+                :ensure => :present,
+                :distro => 'testdistro1',
+                param   => 'not_an_integer',
+              )
+            }.to raise_error(Puppet::ResourceError)
+        end
+        it "should default to nil" do
+          type = Puppet::Type.type(:cobbler_profile).new(
+            :name   => "testprofile1",
+            :ensure => :present,
+            :distro => 'testdistro1',
+          )
+          expect(type.should(param)).nil?
+        end
       end
     end
     context "virt_type" do
