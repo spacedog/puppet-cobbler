@@ -133,5 +133,27 @@ describe Puppet::Type.type(:cobbler_profile) do
         end
       end
     end
+    context "virt_type" do
+      [:xenpv, :xenfv, :qemu, :kvm, :vmware,:openvz].each do |value|
+        it "should support #{value}" do
+          Puppet::Type.type(:cobbler_profile).new(
+            :name      => "testprofile1",
+            :ensure    => :present,
+            :distro    => 'testdistro1',
+            :virt_type => value,
+          )
+        end
+      end
+      it "should raise error if not valid value" do
+        expect {
+          Puppet::Type.type(:cobbler_profile).new(
+            :name      => "testprofile1",
+            :ensure    => :present,
+            :distro    => 'testdistro1',
+            :virt_type => 'not_valid_value',
+          )
+        }.to raise_error(Puppet::ResourceError)
+      end
+    end
   end
 end

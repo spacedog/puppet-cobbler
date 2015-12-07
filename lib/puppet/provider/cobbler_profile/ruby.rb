@@ -31,7 +31,8 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
         :kickstart  => profile["kickstart"],
         :kopts      => profile["kernel_options"],
         :kopts_post => profile["kernel_options_post"],
-        :repos      => profile["repos"]
+        :repos      => profile["repos"],
+        :virt_type  => profile["virt_type"]
       )
     end
     profiles
@@ -66,7 +67,8 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
       "kickstart",
       "repos",
       "kopts",
-      "kopts_post"
+      "kopts_post",
+      "virt_type",
     ]
     for property in properties
       unless self.send(property) == @resource.should(property) or @resource[property].nil?
@@ -88,7 +90,7 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
         "profile",
         "edit",
         "--name=" + @resource[:name],
-        "--#{what.tr('_','-')}=" + value
+        "--#{what.tr('_','-')}=" + value.to_s
       ]
     )
     cobbler('sync')
@@ -139,6 +141,10 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
 
   def repos=(value)
     self.set_field("repos", value)
+  end
+
+  def virt_type=(value)
+    self.set_field("virt_type", value)
   end
 
 

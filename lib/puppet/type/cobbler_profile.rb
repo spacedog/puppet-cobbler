@@ -73,6 +73,18 @@ Puppet::Type.newtype(:cobbler_profile) do
     end
   end
 
+  newproperty(:virt_type) do
+    desc "Virtualization technology to use"
+    newvalues(
+      :xenpv,
+      :xenfv,
+      :qemu,
+      :kvm,
+      :vmware,
+      :openvz
+    )
+  end
+
   validate do
     raise ArgumentError, "Distro must be defined for profile" unless self[:distro]
   end
