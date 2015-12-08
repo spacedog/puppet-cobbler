@@ -19,6 +19,7 @@ describe Puppet::Type.type(:cobbler_system) do
       :redhat_management_key,
       :redhat_management_server,
       :server,
+      :netboot_enabled,
     ].each do |prop|
       it "should have a #{prop} property" do
         expect(Puppet::Type.type(:cobbler_system).attrtype(prop)).to eq(:property)
@@ -155,6 +156,42 @@ describe Puppet::Type.type(:cobbler_system) do
         expect(type.should("interfaces")).to eq({})
       end
 
+    end
+    context "netboot enabled" do
+      it "should support :true" do
+        Puppet::Type.type(:cobbler_system).new(
+          :name            => "testsystem1",
+          :ensure          => :present,
+          :profile         => 'testprofile1',
+          :netboot_enabled => :true,
+        )
+      end
+      it "should support :false" do
+        Puppet::Type.type(:cobbler_system).new(
+          :name            => "testsystem1",
+          :ensure          => :present,
+          :profile         => 'testprofile1',
+          :netboot_enabled => :true,
+        )
+      end
+      it "raise error if any other value" do
+        expect {
+          Puppet::Type.type(:cobbler_system).new(
+            :name            => "testsystem1",
+            :ensure          => :present,
+            :profile         => 'testprofile1',
+            :netboot_enabled => 'not_true_or_false'
+          )
+        }.to raise_error(Puppet::ResourceError)
+      end
+      it "should default to nil" do
+        type = Puppet::Type.type(:cobbler_system).new(
+          :name    => "testsystem1",
+          :ensure  => :present,
+          :profile => 'testprofile1',
+        )
+        expect(type.should(:netboot_enabled)).nil?
+      end
     end
     [
       :hostname,

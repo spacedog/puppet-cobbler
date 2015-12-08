@@ -84,6 +84,11 @@ Puppet::Type.newtype(:cobbler_system) do
     desc "System hostname"
   end
 
+  newproperty(:netboot_enabled, :boolean => true) do
+    desc "Netboot Enabled (PXE (re)install this machine at next boot?)"
+    newvalues(:true, :false)
+  end
+
   validate do
     raise ArgumentError, "Profile is required for system object" unless self[:profile]
   end

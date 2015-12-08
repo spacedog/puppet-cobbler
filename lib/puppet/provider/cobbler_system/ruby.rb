@@ -30,7 +30,8 @@ Puppet::Type.type(:cobbler_system).provide(:ruby) do
         :interfaces               => system["interfaces"],
         :redhat_management_server => system["redhat_management_server"],
         :redhat_management_key    => system["redhat_management_key"],
-        :server                   => system["server"]
+        :server                   => system["server"],
+        :netboot_enabled          => system["netboot_enabled"].to_s
       )
     end
     systems
@@ -131,6 +132,10 @@ Puppet::Type.type(:cobbler_system).provide(:ruby) do
 
   def redhat_management_key=(value)
     self.set_field("redhat_management_key", value)
+  end
+
+  def netboot_enabled=(value)
+    self.set_field("netboot_enabled", value)
   end
 
   def interfaces=(value)
