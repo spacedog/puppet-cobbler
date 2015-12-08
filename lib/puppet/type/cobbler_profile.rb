@@ -74,6 +74,16 @@ Puppet::Type.newtype(:cobbler_profile) do
     end
   end
 
+  newproperty(:ksmeta) do
+    desc "Sets variables available for use in templates"
+    defaultto({})
+    validate do |value|
+      unless value.is_a? Hash
+        raise ArgumentError, "ksmeta parameter accepts only a Hash"
+      end
+    end
+  end
+
   newproperty(:virt_cpus) do
     desc "How many virtual CPUs should koan give the virtual machine"
     validate do |value|

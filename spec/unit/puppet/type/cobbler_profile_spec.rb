@@ -17,6 +17,7 @@ describe Puppet::Type.type(:cobbler_profile) do
       :kickstart,
       :kopts,
       :kopts_post,
+      :ksmeta,
       :repos,
       :dhcp_tag
     ].each do |prop|
@@ -102,7 +103,8 @@ describe Puppet::Type.type(:cobbler_profile) do
     end
     [
       :kopts,
-      :kopts_post
+      :kopts_post,
+      :ksmeta
     ].each do |param|
       context param do
         it "should support hash value" do

@@ -31,6 +31,7 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
         :kickstart  => profile["kickstart"],
         :kopts      => profile["kernel_options"],
         :kopts_post => profile["kernel_options_post"],
+        :ksmeta     => profile["ks_meta"],
         :repos      => profile["repos"],
         :virt_cpus  => profile["virt_cpus"],
         :virt_ram   => profile["virt_ram"],
@@ -70,6 +71,7 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
       "repos",
       "kopts",
       "kopts_post",
+      "ksmeta",
       "virt_cpus",
       "virt_type",
     ]
@@ -86,6 +88,10 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
   def set_field(what, value)
     if value.is_a? Array
       value = "#{value.join(' ')}"
+    end
+
+    if value.is_a? Hash
+      value  = value.map{|k,v| "#{k}=#{v}"}.join(" ")
     end
 
     cobbler(
@@ -140,6 +146,10 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
 
   def kopts_post=(value)
     self.set_kernel_options("kopts_post", value)
+  end
+
+  def ksmeta=(value)
+    self.set_field("ksmeta", value)
   end
 
   def repos=(value)
