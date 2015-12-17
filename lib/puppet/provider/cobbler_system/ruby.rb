@@ -143,7 +143,7 @@ Puppet::Type.type(:cobbler_system).provide(:ruby) do
       cmd_args = []
       cmd_args << "system edit --name=#{@resource[:name]} --interface=#{interface}".split(' ')
       params.each do |param,val|
-        cmd_args << "--#{param.tr('_','-')}=#{val.tr('_','-')}"
+        cmd_args << "--#{param.tr('_','-')}=#{val.to_s}"
       end
       cobbler(cmd_args)
     end
