@@ -3,7 +3,8 @@ describe Puppet::Type.type(:cobbler_repo) do
   context "when validating parameters" do
     [
       :name,
-      :provider
+      :provider,
+      :reposync
     ].each do |param|
       it "should have a #{param} parameter" do
         expect(Puppet::Type.type(:cobbler_repo).attrtype(param)).to eq(:param)
@@ -38,6 +39,40 @@ describe Puppet::Type.type(:cobbler_repo) do
           :name => "testrepo1",
           :ensure => :absent,
         )
+      end
+    end
+    [:reposync].each do |param|
+      context param do
+        it "should support :true" do
+          Puppet::Type.type(:cobbler_repo).new(
+            :name           => "testrepo1",
+            :ensure         => :present,
+            param           => :true,
+          )
+        end
+        it "should support :false" do
+          Puppet::Type.type(:cobbler_repo).new(
+            :name           => "testrepo1",
+            :ensure         => :present,
+            param           => :false,
+          )
+        end
+        it "should default to false" do
+          type = Puppet::Type.type(:cobbler_repo).new(
+            :name   => "testrepo1",
+            :ensure => :present,
+          )
+          expect(type.value(param)).to eq(:false)
+        end
+        it "raise error if any other value" do
+          expect {
+            Puppet::Type.type(:cobbler_repo).new(
+              :name           => "testrepo1",
+              :ensure         => :present,
+              param           => "some_other_value",
+            )
+          }.to raise_error(Puppet::ResourceError)
+        end
       end
     end
   end
@@ -77,29 +112,38 @@ describe Puppet::Type.type(:cobbler_repo) do
         expect(type.should(:rpmlist)).to eq([])
       end
     end
-    context "mirror_locally" do
-      it "should support :true" do
-        Puppet::Type.type(:cobbler_repo).new(
-          :name           => "testrepo1",
-          :ensure         => :present,
-          :mirror_locally => :true,
-        )
-      end
-      it "should support :false" do
-        Puppet::Type.type(:cobbler_repo).new(
-          :name           => "testrepo1",
-          :ensure         => :present,
-          :mirror_locally => :false,
-        )
-      end
-      it "raise error if any other value" do
-        expect {
+    ["mirror_locally"].each do |param|
+      context param do
+        it "should support :true" do
           Puppet::Type.type(:cobbler_repo).new(
             :name           => "testrepo1",
             :ensure         => :present,
-            :mirror_locally => "some_other_value",
+            param           => :true,
           )
-        }.to raise_error(Puppet::ResourceError)
+        end
+        it "should support :false" do
+          Puppet::Type.type(:cobbler_repo).new(
+            :name           => "testrepo1",
+            :ensure         => :present,
+            param           => :false,
+          )
+        end
+        it "should default to false" do
+          type = Puppet::Type.type(:cobbler_repo).new(
+            :name   => "testrepo1",
+            :ensure => :present,
+          )
+          expect(type.should(param)).to eq(:false)
+        end
+        it "raise error if any other value" do
+          expect {
+            Puppet::Type.type(:cobbler_repo).new(
+              :name           => "testrepo1",
+              :ensure         => :present,
+              param           => "some_other_value",
+            )
+          }.to raise_error(Puppet::ResourceError)
+        end
       end
     end
     context "mirror" do

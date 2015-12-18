@@ -47,6 +47,15 @@ Puppet::Type.type(:cobbler_repo).provide(:ruby) do
     @property_hash[:ensure] == :present
   end
 
+  def reposync
+    if @resource[:reposync]
+      cobbler([
+        "reposync",
+        "--only=" + @resource[:name]
+    ])
+    end
+  end
+
   def create
     # To add a profile only name and distro is required
     cobbler(
@@ -71,6 +80,7 @@ Puppet::Type.type(:cobbler_repo).provide(:ruby) do
     end
 
     cobbler("sync")
+    self.reposync
     @property_hash[:ensure] = :present
   end
 

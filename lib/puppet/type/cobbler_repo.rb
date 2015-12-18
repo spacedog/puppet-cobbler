@@ -16,6 +16,11 @@ Puppet::Type.newtype(:cobbler_repo) do
     end
   end
 
+  newparam(:reposync) do
+    desc "Run reposync upon repo creation"
+    defaultto :false
+    newvalues(:true, :false)
+  end
 
   # Properties
   newproperty(:mirror) do
