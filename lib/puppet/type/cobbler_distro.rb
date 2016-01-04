@@ -59,6 +59,48 @@ Puppet::Type.newtype(:cobbler_distro) do
         raise ArgumentError, "ksmeta parameter is not a hash"
       end
     end
+    def change_to_s(currentvalue, newvalue)
+      result = []
+      newvalue.each do |var_name,value|
+        if (not currentvalue.has_key?(var_name)) or currentvalue[var_name] != value
+          if var_name =~ /^.*(password|secret|key).*$/
+            new_value = "[new password redacted]"
+            old_value = "[old password redacted]"
+          else
+            new_value = value
+            old_value = currentvalue[var_name]
+          end
+          result = result << "#{var_name}: #{old_value} -> #{new_value}"
+        end
+      end
+      return result.join(', ')
+    end
+
+    def is_to_s(currentvalue)
+      result = []
+      currentvalue.each do |var_name,value|
+        if var_name =~ /^.*(password|secret|key).*$/
+          old_value = "[old password redacted]"
+        else
+          old_value = value
+        end
+          result = result << "#{var_name} => #{old_value}"
+      end
+      return result.join(', ')
+    end
+
+    def should_to_s(newvalue)
+      result = []
+      newvalue.each do |var_name,value|
+        if var_name =~ /^.*(password|secret|key).*$/
+          new_value = "[new password redacted]"
+        else
+          new_value = value
+        end
+          result = result << "#{var_name} => #{new_value}"
+      end
+      return result.join(', ')
+    end
   end
 
   newproperty(:initrd) do
