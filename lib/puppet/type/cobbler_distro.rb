@@ -117,6 +117,8 @@ Puppet::Type.newtype(:cobbler_distro) do
   end
 
   validate do
-    raise ArgumentError, "path or kernel and initrd is required" unless ((self[:kernel] and self[:initrd]) or self[:path])
+    if self[:ensure] == :present 
+      raise ArgumentError, "path or kernel and initrd is required" if ((self[:kernel].nil? or self[:initrd].nil?) and self[:path].nil?)
+    end
   end
 end

@@ -90,7 +90,7 @@ Puppet::Type.newtype(:cobbler_system) do
   end
 
   validate do
-    raise ArgumentError, "Profile is required for system object" unless self[:profile]
+    raise ArgumentError, "Profile is required for system object" if self[:profile].nil? and self[:ensure] == :present
   end
 
 end

@@ -158,7 +158,7 @@ Puppet::Type.newtype(:cobbler_profile) do
   end
 
   validate do
-    raise ArgumentError, "Distro must be defined for profile" unless self[:distro]
+    raise ArgumentError, "Distro must be defined for profile" if self[:ensure] == :present and self[:distro].nil?
   end
 
 end
