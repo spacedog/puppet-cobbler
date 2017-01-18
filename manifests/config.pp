@@ -102,7 +102,7 @@ class cobbler::config(
   # Just convert to yaml
   file {"${config_path}/${config_file}":
     ensure  => $ensure,
-    content => inline_template('<%= @cobbler_config.to_yaml %>'),
+    content => template ('cobbler/yaml.erb')
   }
 
   cobbler::config::ini {'modules.conf':

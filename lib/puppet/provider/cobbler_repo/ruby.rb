@@ -29,7 +29,7 @@ Puppet::Type.type(:cobbler_repo).provide(:ruby) do
         :breed          => repo["breed"],
         :mirror         => repo["mirror"],
         :mirror_locally => repo["mirror_locally"].to_s,
-        :rpmlist        => repo["rpmlist"],
+        :rpmlist        => repo["rpmlist"]
       )
     end
     repos

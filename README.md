@@ -96,6 +96,7 @@ Cobbler objects are managed using custom types. One of the ways to create
 distributions, repositories, profiles and systems is to pass hash to
 _create_resources_ function. For example:
 + Using hiera:
+
 ```yaml
 cobbler::distros:
   centos7-x86_64:
@@ -110,9 +111,11 @@ cobbler::distros:
 
 create_resources('cobbler_distro', hiera('cobbler::distros')
 ```
+
 or
 
 + Using puppet hash
+
 ```puppet
 $interfaces = {
   'eth0'       => {
@@ -158,3 +161,4 @@ That module contains:
   * setsebool -P httpd_can_network_connect_cobbler 1
   * setsebool -P httpd_serve_cobbler_files 1
   * semanage fcontext -a -t cobbler_var_lib_t "/var/lib/tftpboot/boot(/.*)?"
+
