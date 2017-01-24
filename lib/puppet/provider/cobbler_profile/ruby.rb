@@ -31,7 +31,6 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
         :name_servers          => profile["name_servers"],
         :name_servers_search   => profile["name_servers_search"],
         :kickstart             => profile["kickstart"],
-        :kickstart             => profile["kickstart"],
         :kopts                 => profile["kernel_options"],
         :kopts_post            => profile["kernel_options_post"],
         :ksmeta                => profile["ks_meta"],
