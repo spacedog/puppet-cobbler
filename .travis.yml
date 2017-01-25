@@ -1,5 +1,7 @@
 language: ruby
 rvm:
+  - 1.9.0
+  - 2.0.0
   - 2.2.3
 env:
   - PUPPET_VERSION=3.7.5
