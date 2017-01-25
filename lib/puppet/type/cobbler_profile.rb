@@ -46,6 +46,17 @@ Puppet::Type.newtype(:cobbler_profile) do
     defaultto('default')
   end
 
+  newproperty(:name_servers, :array_matching => :all) do
+    defaultto([])
+    desc 'DNS search for name resolution'
+  end
+
+
+  newproperty(:name_servers_search, :array_matching => :all) do
+    defaultto([])
+    desc 'DNS search domains'
+  end
+
   newproperty(:repos, :array_matching => :all) do
     defaultto([])
     desc "Repos to auto-assign to this profile"

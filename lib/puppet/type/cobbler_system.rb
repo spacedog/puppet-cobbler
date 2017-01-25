@@ -105,6 +105,11 @@ Puppet::Type.newtype(:cobbler_system) do
     desc "System hostname"
   end
 
+  newproperty(:gateway) do
+    desc "Network gateway"
+    defaultto('')
+  end
+
   newproperty(:netboot_enabled, :boolean => true) do
     desc "Netboot Enabled (PXE (re)install this machine at next boot?)"
     newvalues(:true, :false)

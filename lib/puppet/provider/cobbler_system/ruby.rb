@@ -28,6 +28,7 @@ Puppet::Type.type(:cobbler_system).provide(:ruby) do
         :profile                  => system["profile"],
         :hostname                 => system["hostname"],
         :interfaces               => system["interfaces"],
+        :gateway                  => system["gateway"],
         :redhat_management_server => system["redhat_management_server"],
         :redhat_management_key    => system["redhat_management_key"],
         :server                   => system["server"],

@@ -24,18 +24,20 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
     # get properties of current system to @property_hash
     xmlresult.each do |profile|
       profiles << new(
-        :name       => profile["name"],
-        :ensure     => :present,
-        :distro     => profile["distro"],
-        :dhcp_tag   => profile["dhcp_tag"],
-        :kickstart  => profile["kickstart"],
-        :kopts      => profile["kernel_options"],
-        :kopts_post => profile["kernel_options_post"],
-        :ksmeta     => profile["ks_meta"],
-        :repos      => profile["repos"],
-        :virt_cpus  => profile["virt_cpus"],
-        :virt_ram   => profile["virt_ram"],
-        :virt_type  => profile["virt_type"]
+        :name                  => profile["name"],
+        :ensure                => :present,
+        :distro                => profile["distro"],
+        :dhcp_tag              => profile["dhcp_tag"],
+        :name_servers          => profile["name_servers"],
+        :name_servers_search   => profile["name_servers_search"],
+        :kickstart             => profile["kickstart"],
+        :kopts                 => profile["kernel_options"],
+        :kopts_post            => profile["kernel_options_post"],
+        :ksmeta                => profile["ks_meta"],
+        :repos                 => profile["repos"],
+        :virt_cpus             => profile["virt_cpus"],
+        :virt_ram              => profile["virt_ram"],
+        :virt_type             => profile["virt_type"]
       )
     end
     profiles
@@ -67,6 +69,8 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
     properties = [
       "distro",
       "dhcp_tag",
+      "name_servers",
+      "name_servers_search",
       "kickstart",
       "repos",
       "kopts",
@@ -138,6 +142,14 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
 
   def dhcp_tag=(value)
     self.set_field("dhcp_tag", value)
+  end
+
+  def name_servers=(value)
+    self.set_field("name_servers", value)
+  end
+
+  def name_servers_search=(value)
+    self.set_field("name_servers_search", value)
   end
 
   def kopts=(value)

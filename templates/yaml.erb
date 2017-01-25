@@ -1,0 +1,22 @@
+<%- if not @yml_string
+      @yml_string = "---\n"
+    end
+
+   recursive_hash_to_yml_string = Proc.new do |hash, depth|
+    if not depth
+      depth = 0
+    end
+    spacer = ""
+    depth.times { spacer += "  "}
+    hash.keys.sort.each do |sorted_key|
+      @yml_string += spacer + sorted_key + ": "
+      if hash[sorted_key].is_a?(Hash)
+        @yml_string += "\n"
+        recursive_hash_to_yml_string.call(hash[sorted_key], depth+1)
+      else
+        @yml_string += "#{hash[sorted_key].to_s}\n"
+      end
+    end
+  end
+  recursive_hash_to_yml_string.call(@cobbler_config)-%>
+<%= @yml_string %>
