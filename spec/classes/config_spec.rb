@@ -160,20 +160,20 @@ auth_token_expiration: 3600
 authn_pam_service: login
 bind_chroot_path: 
 bind_master: 127.0.0.1
-build_reporting_email: ["root@localhost"]
+build_reporting_email: [\"root@localhost\"]
 build_reporting_enabled: 0
 build_reporting_ignorelist: []
 build_reporting_sender: 
 build_reporting_smtp_server: localhost
 build_reporting_subject: 
-cheetah_import_whitelist: ["random", "re", "time"]
+cheetah_import_whitelist: [\"random\", \"re\", \"time\"]
 client_use_https: 0
 client_use_localhost: 0
 consoles: /var/consoles
 createrepo_flags: -c cache -s sha
 default_kickstart: /var/lib/cobbler/kickstarts/default.ks
 default_name_servers: []
-default_ownership: ["admin"]
+default_ownership: [\"admin\"]
 default_password_crypted: $1$mF86/UHC$WvcIcX2t6crBz2onWxyac.
 default_template_type: cheetah
 default_virt_bridge: xenbr0
@@ -199,7 +199,7 @@ kernel_options_s390x:
 ldap_anonymous_bind: 1
 ldap_base_dn: DC=example,DC=com
 ldap_port: 389
-ldap_search_bind_dn:
+ldap_search_bind_dn: 
 ldap_search_passwd: 
 ldap_search_prefix: uid=
 ldap_server: ldap.example.com
