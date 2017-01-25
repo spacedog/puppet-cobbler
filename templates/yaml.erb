@@ -9,12 +9,15 @@
     spacer = ""
     depth.times { spacer += "  "}
     hash.keys.sort.each do |sorted_key|
-      @yml_string += spacer + sorted_key + ": "
+      @yml_string += spacer + sorted_key + ":"
       if hash[sorted_key].is_a?(Hash)
         @yml_string += "\n"
         recursive_hash_to_yml_string.call(hash[sorted_key], depth+1)
       else
-        @yml_string += "#{hash[sorted_key].to_s}\n"
+        unless hash[sorted_key] == ""
+          @yml_string += " #{hash[sorted_key].to_s}"
+        end
+        @yml_string += "\n"
       end
     end
   end

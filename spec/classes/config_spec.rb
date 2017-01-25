@@ -158,14 +158,14 @@ always_write_dhcp_entries: 0
 anamon_enabled: 0
 auth_token_expiration: 3600
 authn_pam_service: login
-bind_chroot_path: 
+bind_chroot_path:
 bind_master: 127.0.0.1
 build_reporting_email: [\"root@localhost\"]
 build_reporting_enabled: 0
 build_reporting_ignorelist: []
-build_reporting_sender: 
+build_reporting_sender:
 build_reporting_smtp_server: localhost
-build_reporting_subject: 
+build_reporting_subject:
 cheetah_import_whitelist: [\"random\", \"re\", \"time\"]
 client_use_https: 0
 client_use_localhost: 0
@@ -185,28 +185,28 @@ enable_menu: 1
 func_auto_setup: 0
 func_master: overlord.example.org
 http_port: 80
-kernel_options: 
+kernel_options:
   ksdevice: bootif
-  lang: 
-  text: 
-kernel_options_s390x: 
+  lang:
+  text:
+kernel_options_s390x:
   RUNKS: 1
   ip: false
   ramdisk_size: 40000
-  ro: 
+  ro:
   root: /dev/ram0
-  vnc: 
+  vnc:
 ldap_anonymous_bind: 1
 ldap_base_dn: DC=example,DC=com
 ldap_port: 389
-ldap_search_bind_dn: 
-ldap_search_passwd: 
+ldap_search_bind_dn:
+ldap_search_passwd:
 ldap_search_prefix: uid=
 ldap_server: ldap.example.com
 ldap_tls: 1
-ldap_tls_cacertfile: 
-ldap_tls_certfile: 
-ldap_tls_keyfile: 
+ldap_tls_cacertfile:
+ldap_tls_certfile:
+ldap_tls_keyfile:
 manage_dhcp: 0
 manage_dns: 0
 manage_forward_zones: []
@@ -214,18 +214,18 @@ manage_reverse_zones: []
 manage_rsync: 0
 manage_tftpd: 1
 mgmt_classes: []
-mgmt_parameters: 
+mgmt_parameters:
   from_cobbler: 1
 next_server: 127.0.0.1
 power_management_default_type: ipmitool
 power_template_dir: /etc/cobbler/power
-proxy_url_ext: 
-proxy_url_int: 
+proxy_url_ext:
+proxy_url_int:
 puppet_auto_setup: 0
 puppetca_path: /usr/bin/puppet
 pxe_just_once: 1
 pxe_template_dir: /etc/cobbler/pxe
-redhat_management_key: 
+redhat_management_key:
 redhat_management_permissive: 0
 redhat_management_server: xmlrpc.rhn.redhat.com
 redhat_management_type: off
