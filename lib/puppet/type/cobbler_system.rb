@@ -49,7 +49,9 @@ Puppet::Type.newtype(:cobbler_system) do
         end
         # Check interface parameters
         params.each do |param, value|
-          unless is[interface][param] == value
+          # Ignore interface key name, used only as cobbler argument
+          next if param == "interface"
+          unless is[interface][param].to_s == value
             return false
           end
         end
