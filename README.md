@@ -236,7 +236,7 @@ cobbler::repos:
     mirror_locally: "false"
     name: 'RPMFusion-free-6'
 
-cobbler::images: '[]'
+cobbler::images: []
 
 cobbler::profiles:
   server:
