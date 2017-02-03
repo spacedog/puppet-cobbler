@@ -85,7 +85,6 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
       end
     end
 
-    cobbler("sync")
     @property_hash[:ensure] = :present
   end
 
@@ -106,7 +105,6 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
         "--#{what.tr('_','-')}=" + value.to_s
       ]
     )
-    cobbler('sync')
     @property_hash[what] = value
   end
 

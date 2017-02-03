@@ -6,6 +6,13 @@ Puppet::Type.newtype(:cobbler_system) do
 
   ensurable
 
+  def initialize(*args)
+    super
+    self[:notify] = [
+       "Class[Cobbler::Service]",
+    ].select { |ref| catalog.resource(ref) }
+  end
+
   # Parameters
   newparam(:name, :namevar => true) do
     desc "A string identifying the system"
