@@ -15,11 +15,9 @@ Puppet::Type.newtype(:cobbler_repo) do
   # Parameters
   newparam(:name, :namevar => true) do
     desc "A string identifying the repo"
-    munge do |value|
-      value.downcase
-    end
+
     def insync?(is)
-      is.downcase == should.downcase
+      is == should
     end
   end
 
