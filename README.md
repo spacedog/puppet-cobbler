@@ -269,7 +269,6 @@ cobbler::systems:
     gateway: '192.168.1.1'
     interfaces:
       eth0:
-        interface: 'eth0'
         ip_address: '192.168.1.2'
         mac_address: '00:11:22:33:44:55'
         netmask: '255.255.255.0'
@@ -279,7 +278,6 @@ cobbler::systems:
     gateway: '192.168.1.1'
     interfaces:
       eth0:
-        interface: 'eth0'
         ip_address: '192.168.1.3'
         mac_address: '11:22:33:44:55:66'
         netmask: '255.255.255.0'
