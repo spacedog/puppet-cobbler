@@ -5,14 +5,19 @@ Puppet::Type.newtype(:cobbler_repo) do
 
   ensurable
 
+  def initialize(*args)
+    super
+    self[:notify] = [
+       "Class[Cobbler::Service]",
+    ].select { |ref| catalog.resource(ref) }
+  end
+
   # Parameters
   newparam(:name, :namevar => true) do
     desc "A string identifying the repo"
-    munge do |value|
-      value.downcase
-    end
+
     def insync?(is)
-      is.downcase == should.downcase
+      is == should
     end
   end
 

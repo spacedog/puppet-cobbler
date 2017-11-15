@@ -79,7 +79,6 @@ Puppet::Type.type(:cobbler_repo).provide(:ruby) do
       end
     end
 
-    cobbler("sync")
     self.reposync
     @property_hash[:ensure] = :present
   end
@@ -97,7 +96,6 @@ Puppet::Type.type(:cobbler_repo).provide(:ruby) do
         "--#{what.tr('_','-')}=" + value.to_s
       ]
     )
-    cobbler('sync')
     @property_hash[what] = value
   end
 

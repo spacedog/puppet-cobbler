@@ -6,6 +6,13 @@ Puppet::Type.newtype(:cobbler_system) do
 
   ensurable
 
+  def initialize(*args)
+    super
+    self[:notify] = [
+       "Class[Cobbler::Service]",
+    ].select { |ref| catalog.resource(ref) }
+  end
+
   # Parameters
   newparam(:name, :namevar => true) do
     desc "A string identifying the system"
@@ -49,7 +56,9 @@ Puppet::Type.newtype(:cobbler_system) do
         end
         # Check interface parameters
         params.each do |param, value|
-          unless is[interface][param] == value
+          # Ignore interface key name, used only as cobbler argument
+          next if param == "interface"
+          unless is[interface][param].to_s == value
             return false
           end
         end

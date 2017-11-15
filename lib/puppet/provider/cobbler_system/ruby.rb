@@ -78,7 +78,6 @@ Puppet::Type.type(:cobbler_system).provide(:ruby) do
       self.interfaces = @resource.should(:interfaces)
     end
 
-    cobbler("sync")
     @property_hash[:ensure] = :present
   end
 
@@ -95,7 +94,6 @@ Puppet::Type.type(:cobbler_system).provide(:ruby) do
         "--#{what.tr('_','-')}=" + value.to_s
       ]
     )
-    cobbler('sync')
     @property_hash[what] = value
   end
 
@@ -149,7 +147,6 @@ Puppet::Type.type(:cobbler_system).provide(:ruby) do
       end
       cobbler(cmd_args)
     end
-    cobbler('sync')
   end
 
 end

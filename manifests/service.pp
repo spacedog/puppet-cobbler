@@ -50,4 +50,8 @@ class cobbler::service (
     ensure => $service_ensure,
     enable => $service_enable,
   }
+  exec {'cobbler_sync':
+    refreshonly  => true,
+    command      => "/usr/bin/cobbler sync",
+  }
 }
