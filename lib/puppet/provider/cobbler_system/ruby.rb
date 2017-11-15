@@ -63,6 +63,7 @@ Puppet::Type.type(:cobbler_system).provide(:ruby) do
     # set properties as they are not set by defaut
     properties = [
       "hostname",
+      "netboot_enabled",
       "redhat_management_server",
       "redhat_management_key",
       "server",
