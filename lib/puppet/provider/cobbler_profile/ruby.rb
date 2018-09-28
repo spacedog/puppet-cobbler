@@ -28,6 +28,7 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
         :ensure                => :present,
         :distro                => profile["distro"],
         :dhcp_tag              => profile["dhcp_tag"],
+        :enable_gpxe           => profile["enable_gpxe"],
         :name_servers          => profile["name_servers"],
         :name_servers_search   => profile["name_servers_search"],
         :kickstart             => profile["kickstart"],
@@ -57,7 +58,7 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
 
   def create
     # To add a profile only name and distro is required
-    cobbler( 
+    cobbler(
             [
               "profile",
               "add",
@@ -69,6 +70,7 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
     properties = [
       "distro",
       "dhcp_tag",
+      "enable_gpxe",
       "name_servers",
       "name_servers_search",
       "kickstart",
@@ -142,6 +144,10 @@ Puppet::Type.type(:cobbler_profile).provide(:ruby) do
 
   def dhcp_tag=(value)
     self.set_field("dhcp_tag", value)
+  end
+
+  def enable_gpxe=(value)
+    self.set_field("enable_gpxe", value)
   end
 
   def name_servers=(value)
