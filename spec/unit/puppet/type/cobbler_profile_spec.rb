@@ -136,6 +136,7 @@ describe Puppet::Type.type(:cobbler_profile) do
       end
     end
     [
+      :enable_gpxe,
       :virt_cpus,
       :virt_ram
     ].each do |param|

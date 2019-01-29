@@ -20,7 +20,7 @@ Puppet::Type.newtype(:cobbler_profile) do
     desc "Path to kickstart template"
     validate do |value|
       if value
-        unless Pathname.new(value).absolute? 
+        unless Pathname.new(value).absolute?
           raise ArgumentError, "%s is not a valid path" % value
         end
       end
@@ -44,6 +44,15 @@ Puppet::Type.newtype(:cobbler_profile) do
   newproperty(:dhcp_tag) do
     desc 'DHCP tags for multiple networks usage'
     defaultto('default')
+  end
+
+  newproperty(:enable_gpxe) do
+    desc 'Enable gpxe functionality for gPXE/iPXE booting'
+    validate do |value|
+      unless value.is_a?(TrueClass) || value.is_a?(FalseClass)
+        raise ArgumentError, "Enable_gpxe parameter accepts true or false value"
+      end
+    end
   end
 
   newproperty(:name_servers, :array_matching => :all) do
