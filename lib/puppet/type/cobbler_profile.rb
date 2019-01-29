@@ -49,8 +49,8 @@ Puppet::Type.newtype(:cobbler_profile) do
   newproperty(:enable_gpxe) do
     desc 'Enable gpxe functionality for gPXE/iPXE booting'
     validate do |value|
-      unless value.is_a? Integer
-        raise ArgumentError, "Enable_gpxe parameter accepts only integer value"
+      unless value.is_a?(TrueClass) || value.is_a?(FalseClass)
+        raise ArgumentError, "Enable_gpxe parameter accepts true or false value"
       end
     end
   end
