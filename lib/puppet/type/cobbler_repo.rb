@@ -39,6 +39,7 @@ Puppet::Type.newtype(:cobbler_repo) do
   end
 
   newproperty(:breed) do
+    desc "The breed of repo distribution"
     newvalues(:rsync, :rhn, :wget, :yum, :apt, :wget)
     defaultto(:rsync)
   end
