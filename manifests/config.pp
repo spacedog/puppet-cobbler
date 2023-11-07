@@ -66,7 +66,7 @@ class cobbler::config (
 
   file { "${config_path}/${config_file}":
     ensure  => $_file_ensure,
-    content => template ('cobbler/yaml.erb'),
+    content => $cobbler_config.to_yaml,
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
