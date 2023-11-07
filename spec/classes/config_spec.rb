@@ -145,7 +145,7 @@ describe('cobbler::config') do
   it { should contain_class('cobbler::config') }
   it { should contain_file('/etc/cobbler/settings').with(
     {
-      'ensure' => 'present',
+      'ensure' => 'file',
       'owner'  => 'root',
       'group'  => 'root',
       'mode'   => '0644',

@@ -40,7 +40,7 @@ describe "cobbler::config::ini" do
     end
 
     it { should contain_file('/path/to/config_file.ini').with(
-      'ensure'  => 'present',
+      'ensure'  => 'file',
       'owner'   => 'root',
       'group'   => 'root',
       'mode'    => '0644',

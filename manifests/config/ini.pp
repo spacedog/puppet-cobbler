@@ -1,19 +1,15 @@
-# == Define cobbler::config::ini
+# @summary Helps build ini configuration files for cobbler
 #
-# Helps build ini configuration files for cobbler
+# @param ensure
+#   The state of puppet resources within the module.
 #
-# === Parameters
-#
-# [*config_file*]
+# @param config_file
 #   Absolute path to configuration file
 #
-#   Type: String
-#   Default: nil
-#
-# [*options*]
+# @param options
 #   Hash of options to build config_file upon.
 #
-#   Exapmple:
+#   Example:
 #     cobbler_modules_config => {
 #       section1            => {
 #         option1 => value1,
@@ -24,29 +20,25 @@
 #       }
 #     }
 #
-#   Type: Hash
-#   Default: {}
-#
-# === Authors
-#
-# Anton Baranov <abaranov@linuxfoundation.org>
+# @author Anton Baranov <abaranov@linuxfoundation.org>
 define cobbler::config::ini (
-  $ensure,
-  $config_file,
-  $options
+  Enum[
+    'present',
+    'absent'
+  ] $ensure,
+  Stdlib::Absolutepath $config_file,
+  Hash $options
 ) {
-  validate_absolute_path($config_file)
-  validate_hash($options)
-  validate_re($ensure, ['^present', '^absent'])
-
-  File {
-    mode  => '0644',
-    owner => 'root',
-    group => 'root',
+  $_file_ensure = $ensure ? {
+    'present' => file,
+    default   => absent,
   }
 
   file { $config_file:
-    ensure  => $ensure,
-    content => template("${module_name}/ini.erb")
+    ensure  => $_file_ensure,
+    content => template("${module_name}/ini.erb"),
+    mode    => '0644',
+    owner   => 'root',
+    group   => 'root',
   }
 }

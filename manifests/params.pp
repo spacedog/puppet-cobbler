@@ -1,21 +1,13 @@
-# == Class: cobbler::params
+# @summary Defines default values for variables inside whole cobbler class
 #
-# Defines default values for variables inside whole cobbler class
-#
-# === Parameters
-#
-# None
-#
-# === Authors
-#
-# Anton Baranov <email:abaranov@linuxfoundation.org>
+# @author Anton Baranov <email:abaranov@linuxfoundation.org>
 class cobbler::params {
   $ensure                 = 'present'
   $package                = [
-                              'cobbler',
-                              'syslinux',
-                              'syslinux-tftpboot'
-                            ]
+    'cobbler',
+    'syslinux',
+    'syslinux-tftpboot',
+  ]
   $package_ensure         = 'installed'
   $service                = 'cobblerd'
   $service_ensure         = 'running'
@@ -35,7 +27,7 @@ class cobbler::params {
     'auth_token_expiration'                 => 3600,
     'build_reporting_enabled'               => 0,
     'build_reporting_sender'                => '',
-    'build_reporting_email'                 => [ 'root@localhost'],
+    'build_reporting_email'                 => ['root@localhost'],
     'build_reporting_smtp_server'           => 'localhost',
     'build_reporting_subject'               => '',
     'build_reporting_ignorelist'            => [],
@@ -65,12 +57,12 @@ class cobbler::params {
       'text'     => '',
     },
     'kernel_options_s390x'                  => {
-      'RUNKS'        =>  1,
+      'RUNKS'        => 1,
       'ramdisk_size' => 40000,
       'root'         => '/dev/ram0',
       'ro'           => '' ,
       'ip'           => false,
-      'vnc'          => ''
+      'vnc'          => '',
     },
     'ldap_server'                           => 'ldap.example.com',
     'ldap_base_dn'                          => 'DC=example,DC=com',
@@ -85,7 +77,7 @@ class cobbler::params {
     'ldap_tls_certfile'                     => '',
     'mgmt_classes'                          => [],
     'mgmt_parameters'                       => {
-      'from_cobbler' => 1
+      'from_cobbler' => 1,
     },
     'puppet_auto_setup'                     => 0,
     'sign_puppet_certs_automatically'       => 0,
@@ -132,14 +124,14 @@ class cobbler::params {
     'replicate_repo_rsync_options'          => '-avzH',
     'always_write_dhcp_entries'             => 0,
     'proxy_url_ext'                         => '',
-    'proxy_url_int'                         => ''
+    'proxy_url_int'                         => '',
   }
   # Default configuration for cobbler modules
   $default_modules_config = {
-    'authentication' => {'module' => 'authn_configfile'},
-    'authorization'  => {'module' => 'authz_allowall'},
-    'dns'            => {'module' => 'manage_bind'},
-    'dhcp'           => {'module' => 'manage_isc'},
-    'tftpd'          => {'module' => 'manage_in_tftpd'},
+    'authentication' => { 'module' => 'authn_configfile' },
+    'authorization'  => { 'module' => 'authz_allowall' },
+    'dns'            => { 'module' => 'manage_bind' },
+    'dhcp'           => { 'module' => 'manage_isc' },
+    'tftpd'          => { 'module' => 'manage_in_tftpd' },
   }
 }
